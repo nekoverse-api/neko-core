@@ -56,3 +56,19 @@ class NekoFileYamlLoaderSuite {
         #expect("Nested Gary Ascuy".isEqual(config.config.name))
     }
 }
+
+@Suite
+class NekoFileTomlLoaderSuite {
+    @Test func testLoadTomlConfig() throws {
+        let config = try NekoFileLoader.loadToml(
+            TestConfig.self, fileName: "./Tests/Data/Loader/Toml/TestConfig.toml")
+        #expect("Gary Ascuy".isEqual(config.name))
+    }
+
+    @Test func testLoadNestedTomlWithCommentsConfig() throws {
+        let config = try NekoFileLoader.loadToml(
+            TestNestedConfig.self, fileName: "./Tests/Data/Loader/Toml/TestNestedConfig.toml")
+        #expect("Gary Ascuy".isEqual(config.name))
+        #expect("Nested Gary Ascuy".isEqual(config.config.name))
+    }
+}

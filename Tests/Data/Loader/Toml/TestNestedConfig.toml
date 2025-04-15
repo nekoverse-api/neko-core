@@ -1,0 +1,12 @@
+# Test Comment 
+name = "Gary Ascuy"
+
+# Basic Config with Comment 
+[config]
+name = "Nested Gary Ascuy" # Config 
+test = "Extra Field"       # Comment 
+
+
+#
+# Last Comment
+#

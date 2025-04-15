@@ -4,7 +4,6 @@
 
 </div>
 
-
 # Neko - Nekoverse Project
 
 **It's time for a revolution in API client technology!**

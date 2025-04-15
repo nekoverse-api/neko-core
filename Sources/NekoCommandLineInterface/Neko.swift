@@ -7,7 +7,7 @@
 import ArgumentParser
 
 @main
-struct NekoCore: ParsableCommand {
+struct Neko: ParsableCommand {
     mutating func run() throws {
         print("Hello, world!")
     }

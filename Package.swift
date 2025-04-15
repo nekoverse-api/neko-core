@@ -4,16 +4,18 @@
 import PackageDescription
 
 let package = Package(
-    name: "NekoCommandLineInterface",
+    name: "NekoCore",
+    platforms: [.macOS(.v15)],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.5.0"),
     ],
     targets: [
         .executableTarget(
-            name: "NekoCommandLineInterface/NekoCore",
+            name: "neko",
             dependencies: [
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
-            ]
+            ],
+            path: "Sources/NekoCommandLineInterface"
         ),
     ]
 )

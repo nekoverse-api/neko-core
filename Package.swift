@@ -4,18 +4,31 @@
 import PackageDescription
 
 let package = Package(
-    name: "NekoCore",
+    name: "NekoCommandLineInterface",
     platforms: [.macOS(.v15)],
+    products: [
+        .library(name: "NekoCore", targets: ["NekoCore"])
+    ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.5.0")
     ],
     targets: [
+        .target(
+            name: "NekoCore",
+            dependencies: [],
+            path: "Sources/NekoCore"
+        ),
+        // .testTarget(
+        //     name: "NekoCoreTests",
+        //     dependencies: ["NekoCore"]
+        // ),
         .executableTarget(
             name: "neko",
             dependencies: [
-                .product(name: "ArgumentParser", package: "swift-argument-parser")
+                "NekoCore",
+                .product(name: "ArgumentParser", package: "swift-argument-parser"),
             ],
             path: "Sources/NekoCommandLineInterface"
-        )
+        ),
     ]
 )

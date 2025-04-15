@@ -39,6 +39,7 @@ The [Neko Logo](https://www.svgrepo.com/svg/423820/cat-origami-paper) is sourced
 - https://www.swift.org/getting-started/
 - https://www.swift.org/getting-started/cli-swiftpm/
 - https://www.swift.org/documentation/package-manager/
+- https://docs.swift.org/swift-book/documentation/the-swift-programming-language/
 
 - https://swiftpackageindex.com/
 - https://www.avanderlee.com/swift-testing/expect-macro/

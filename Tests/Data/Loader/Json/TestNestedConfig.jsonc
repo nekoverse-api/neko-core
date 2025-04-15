@@ -1,0 +1,11 @@
+/**
+ * JSON 5 Support Test
+ */
+{
+    "name": "Gary Ascuy", // Inline Comments
+    "config": {
+        "name": "Nested Gary Ascuy",
+        "test": "Extra Field" /* Other Comments */
+    }
+    // Test Comment
+}

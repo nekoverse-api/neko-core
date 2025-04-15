@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:neko-core}",
+            "name": "Debug neko",
+            "program": "${workspaceFolder:neko-core}/.build/debug/neko",
+            "preLaunchTask": "swift: Build Debug neko"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:neko-core}",
+            "name": "Release neko",
+            "program": "${workspaceFolder:neko-core}/.build/release/neko",
+            "preLaunchTask": "swift: Build Release neko"
+        }
+    ]
+}

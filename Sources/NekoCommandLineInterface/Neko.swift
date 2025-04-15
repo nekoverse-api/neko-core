@@ -10,8 +10,6 @@ import NekoCore
 @main
 struct Neko: ParsableCommand {
     mutating func run() throws {
-        print("Hello, world!")
-        show()
-        info()
+        print("Hello, world! \(add(a: 1, b: 2))")
     }
 }

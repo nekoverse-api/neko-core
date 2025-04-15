@@ -18,10 +18,11 @@ let package = Package(
             dependencies: [],
             path: "Sources/NekoCore"
         ),
-        // .testTarget(
-        //     name: "NekoCoreTests",
-        //     dependencies: ["NekoCore"]
-        // ),
+        .testTarget(
+            name: "NekoCoreTests",
+            dependencies: ["NekoCore"],
+            path: "Tests/NekoCoreTests"
+        ),
         .executableTarget(
             name: "neko",
             dependencies: [

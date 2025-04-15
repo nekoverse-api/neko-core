@@ -1,5 +1,8 @@
 # Neko Core - Nekoverse Project
 
+**It's time for a revolution in API client technology!**
+
+Neko is a Faster, Git-Friendly, Flexible, Extensible and Highly Plugineable API client, aimed at revolutionizing the status quo represented by Postman, Insomnia, Bruno and similar tools out there.
 
 
 ### Local Development 

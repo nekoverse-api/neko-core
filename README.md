@@ -1,10 +1,10 @@
 # Neko - Nekoverse Project
 
-<p align="center">
+<div align="center">
 
 ![Neko Logo](/Docs/Logo/logo.svg)
 
-</p>
+</div>
 
 **It's time for a revolution in API client technology!**
 

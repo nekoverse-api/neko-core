@@ -1,0 +1,67 @@
+---
+config:
+  theme: neo
+  look: neo
+  layout: elk
+---
+classDiagram
+direction TB
+	namespace ConfigNekoLoader {
+                class NekoLoaderPlugin {
+                        +load()
+                }
+                class GitFriendlyNekoLoaderPlugin {
+                        +load()
+                }
+                class NativeNekoLoaderPlugin {
+                        +load()
+                }
+                class GRPCNekoLoaderPlugin {
+                        +load()
+                }
+                class NekoFileLoader {
+                +load()
+                +loadJson()
+                +loadYaml()
+                +loadToml()
+                +loadCsv()
+                }
+	}
+
+	namespace NekoExecutorNamespace {
+                class NekoExecutor {
+                        +execute()
+                }
+                class NekoNativeExecutor {
+                        +execute()
+                }
+                class NekoGRPCExecutor {
+                        +execute()
+                }
+                }
+                namespace NekoTesterNamespace {
+                class NekoTester {
+                        +runScript()
+                }
+                class NekoNativeTester {
+                        +runScript()
+                }
+                class NekoGRPCTester {
+                        +runScript()
+                }
+	}
+
+	<<protocol>> NekoLoaderPlugin
+	<<protocol>> NekoExecutor
+
+        NekoLoaderPlugin <|-- GitFriendlyNekoLoaderPlugin
+        NekoLoaderPlugin <|-- NativeNekoLoaderPlugin
+        NekoLoaderPlugin <|-- GRPCNekoLoaderPlugin
+
+        GitFriendlyNekoLoaderPlugin ..> NekoFileLoader
+        NativeNekoLoaderPlugin ..> NekoFileLoader
+        
+        NekoExecutor <|-- NekoNativeExecutor
+        NekoExecutor <|-- NekoGRPCExecutor
+        NekoTester <|-- NekoNativeTester
+        NekoTester <|-- NekoGRPCTester

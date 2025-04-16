@@ -4,12 +4,10 @@ public struct NekoPlugin: Codable {
 }
 
 public struct NekoFolderMetadata: Codable {
-    let version: String?
-    let authors: [String]?
-
     let name: String?
     let description: String?
     let seq: Int64?
+    let authors: [String]?
 
     let loader: NekoPlugin?
     let executor: NekoPlugin?
@@ -33,6 +31,7 @@ public typealias NekoData = [[String: String]]  // TODO: Review
 public typealias NekoEnvironment = [String: String]
 
 public struct NekoFolderConfig: Codable {
+    let version: String
     let root: Bool
 
     let meta: NekoFolderMetadata?
@@ -57,7 +56,7 @@ public struct NekoRequestConfig: Codable {
     let envs: NekoEnvironment?
     let data: NekoData?
 
-    let request: NekoHttp
+    let http: NekoHttp
 }
 
 /// Neko Configuration Model

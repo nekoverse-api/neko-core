@@ -1,0 +1,21 @@
+---
+config:
+  theme: base
+---
+architecture-beta
+    group nekoverse(cloud)[Nekoverse]
+    service cli(server)[Neko CLI] in nekoverse
+    service gui(server)[Neko GUI] in nekoverse
+    service core(server)[Neko Core] in nekoverse
+    service files(disk)[Storage]
+    service grpc(cloud)[Neko gRPC]
+    service ssm(internet)[SSM]
+    service docker(internet)[Docker]
+    service ssh(internet)[SSH]
+    cli:R --> L:core
+    gui:R --> T:core
+    core:R --> L:grpc
+    core:B --> T:files
+    grpc:R --> L:ssh
+    grpc:T --> L:ssm
+    grpc:B --> L:docker

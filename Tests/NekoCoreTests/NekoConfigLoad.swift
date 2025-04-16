@@ -3,26 +3,7 @@ import Testing
 @testable import NekoCore
 
 @Suite
-class NekoConfigSuite {
-    @Test func testLoadBasicJsonConfig() throws {
-        let path = "./Tests/Data/Config/Basic/Basic.neko.json"
-        let config = try NekoFileLoader.loadJson(NekoConfig.self, fileName: path)
-
-        #expect("neko@v1.0.0".isEqual(config.version))
-    }
-    @Test func testLoadBasicTomlConfig() throws {
-        let path = "./Tests/Data/Config/Basic/Basic.neko.toml"
-        let config = try NekoFileLoader.loadToml(NekoConfig.self, fileName: path)
-
-        #expect("neko@v1.0.0".isEqual(config.version))
-    }
-    @Test func testLoadBasicYamlConfig() throws {
-        let path = "./Tests/Data/Config/Basic/Basic.neko.yaml"
-        let config = try NekoFileLoader.loadYaml(NekoConfig.self, fileName: path)
-
-        #expect("neko@v1.0.0".isEqual(config.version))
-    }
-
+struct NekoConfigUtilsSuite {
     @Test(
         arguments: zip(
             [
@@ -70,6 +51,28 @@ class NekoConfigSuite {
         #expect(NekoFileLoader.isYaml("yaml"))
         #expect(NekoFileLoader.isYaml("yml"))
         #expect(NekoFileLoader.isYaml("gary") == false)
+    }
+}
+
+@Suite
+struct NekoConfigBasicSuite {
+    @Test func testLoadBasicJsonConfig() throws {
+        let path = "./Tests/Data/Config/Basic/Basic.neko.json"
+        let config = try NekoFileLoader.loadJson(NekoConfig.self, fileName: path)
+
+        #expect("neko@v1.0.0".isEqual(config.version))
+    }
+    @Test func testLoadBasicTomlConfig() throws {
+        let path = "./Tests/Data/Config/Basic/Basic.neko.toml"
+        let config = try NekoFileLoader.loadToml(NekoConfig.self, fileName: path)
+
+        #expect("neko@v1.0.0".isEqual(config.version))
+    }
+    @Test func testLoadBasicYamlConfig() throws {
+        let path = "./Tests/Data/Config/Basic/Basic.neko.yaml"
+        let config = try NekoFileLoader.loadYaml(NekoConfig.self, fileName: path)
+
+        #expect("neko@v1.0.0".isEqual(config.version))
     }
 
     @Test(arguments: [

@@ -79,6 +79,7 @@ struct NekoConfigBasicSuite {
         "./Tests/Data/Config/Basic/Basic.neko.json",
         "./Tests/Data/Config/Basic/Basic.neko.toml",
         "./Tests/Data/Config/Basic/Basic.neko.yaml",
+        "./Tests/Data/Config/Error/Collection.NeKo.JSON",
     ])
     func testLoadBasicTomlConfig(path: String) throws {
         let config = try NekoFileLoader.load(NekoConfig.self, fileName: path)

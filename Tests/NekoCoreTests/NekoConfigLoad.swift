@@ -63,21 +63,21 @@ struct NekoConfigUtilsSuite {
 struct NekoConfigBasicLoadSuite {
     @Test func testLoadBasicJsonConfig() throws {
         let path = "./Tests/Data/Config/Basic/Basic.neko.json"
-        let config = try NekoFileLoader.loadJson(NekoConfig.self, fileName: path)
+        let config = try NekoFileLoader.loadJson(NekoConfig.self, path)
 
         #expect("neko@v1.0.0".isEqual(config.version))
     }
 
     @Test func testLoadBasicTomlConfig() throws {
         let path = "./Tests/Data/Config/Basic/Basic.neko.toml"
-        let config = try NekoFileLoader.loadToml(NekoConfig.self, fileName: path)
+        let config = try NekoFileLoader.loadToml(NekoConfig.self, path)
 
         #expect("neko@v1.0.0".isEqual(config.version))
     }
 
     @Test func testLoadBasicYamlConfig() throws {
         let path = "./Tests/Data/Config/Basic/Basic.neko.yaml"
-        let config = try NekoFileLoader.loadYaml(NekoConfig.self, fileName: path)
+        let config = try NekoFileLoader.loadYaml(NekoConfig.self, path)
 
         #expect("neko@v1.0.0".isEqual(config.version))
     }

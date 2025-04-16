@@ -4,13 +4,13 @@ import TOMLDecoder
 import Yams
 
 public struct NekoFileLoader {
-    public static func loadJson<T>(_ type: T.Type, fileName: String) throws -> T
+    public static func loadJson<T>(_ type: T.Type, _ path: String) throws -> T
     where T: Decodable {
         let decoder = JSONDecoder()
         decoder.allowsJSON5 = true
 
         do {
-            let url = URL(fileURLWithPath: fileName)
+            let url = URL(fileURLWithPath: path)
             let data = try Data(contentsOf: url)
             let config = try decoder.decode(type, from: data)
             return config
@@ -19,12 +19,12 @@ public struct NekoFileLoader {
         }
     }
 
-    public static func loadYaml<T>(_ type: T.Type, fileName: String) throws -> T
+    public static func loadYaml<T>(_ type: T.Type, _ path: String) throws -> T
     where T: Decodable {
         let decoder = YAMLDecoder()
 
         do {
-            let url = URL(fileURLWithPath: fileName)
+            let url = URL(fileURLWithPath: path)
             let data = try Data(contentsOf: url)
             let config = try decoder.decode(type, from: data)
             return config
@@ -33,12 +33,12 @@ public struct NekoFileLoader {
         }
     }
 
-    public static func loadToml<T>(_ type: T.Type, fileName: String) throws -> T
+    public static func loadToml<T>(_ type: T.Type, _ path: String) throws -> T
     where T: Decodable {
         let decoder = TOMLDecoder()
 
         do {
-            let url = URL(fileURLWithPath: fileName)
+            let url = URL(fileURLWithPath: path)
             let data = try Data(contentsOf: url)
             let config = try decoder.decode(type, from: data)
             return config
@@ -73,15 +73,15 @@ public struct NekoFileLoader {
         let pathExtension = getPathExtension(path)
 
         if isJson(pathExtension) {
-            return try self.loadJson(type, fileName: path)
+            return try self.loadJson(type, path)
         }
 
         if isToml(pathExtension) {
-            return try self.loadToml(type, fileName: path)
+            return try self.loadToml(type, path)
         }
 
         if isYaml(pathExtension) {
-            return try self.loadYaml(type, fileName: path)
+            return try self.loadYaml(type, path)
         }
 
         if isCsv(pathExtension) {
@@ -100,7 +100,7 @@ public struct NekoFileLoader {
         }
 
         if isJson(pathExtension) {
-            return try loadJson([T].self, fileName: path)
+            return try loadJson([T].self, path)
         }
 
         if isToml(pathExtension) {
@@ -108,7 +108,7 @@ public struct NekoFileLoader {
         }
 
         if isYaml(pathExtension) {
-            return try self.loadYaml([T].self, fileName: path)
+            return try self.loadYaml([T].self, path)
         }
 
         throw ConfigLoaderError.UnsupportedFormatError

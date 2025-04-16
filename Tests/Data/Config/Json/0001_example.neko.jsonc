@@ -1,0 +1,116 @@
+{
+    // 
+    // Version & Root
+    //  
+    "version": "neko@v1.0.0",
+    "root": true,
+    //
+    // Metadata & Collection Info
+    // 
+    "meta": {
+        "name": "Echo Demostration Collection",
+        "description": "",
+        "authors": "Gary Ascuy <gary.ascuy@gmail.com>",
+        "seq": 0,
+        // 
+        // Plugins Configuration
+        // 
+        "loader": {
+            "name": "NekoFilePluginLoader",
+            "properties": {
+                "version": "v0.0.1"
+            }
+        },
+        "executor": {
+            "name": "NekoNativePluginExecutor",
+            "properties": {
+                "version": "v0.0.1"
+            }
+        },
+        "tester": {
+            "name": "NekoNativePluginTester",
+            "properties": {
+                "version": "v0.0.1"
+            }
+        }
+    },
+    // 
+    // Environment Variables
+    // 
+    "envs": {
+        "baseUrl": "https://echo.nekoverse.me",
+        "userId": "7a0eed16-9430-4d68-901f-c0d4c1c3bf00"
+    },
+    "data": [
+        {
+            "name": "test"
+        }
+    ],
+    // 
+    // Content Folders & Requests
+    //  
+    "folders": [
+        {
+            "requests": [
+                {
+                    // Request 1
+                    "meta": {
+                        "name": "Get User",
+                        "seq": 0
+                    },
+                    "http": {
+                        "url": "{{baseUrl}}/get",
+                        "method": "GET",
+                        "parameters": {
+                            "limit": 2
+                        },
+                        "headers": {
+                            "Content-Type": "application/json",
+                            "Accept": "applicaiton/json"
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "requests": [
+        {
+            // Request 2
+            "meta": {
+                "name": "Create User",
+                "seq": 2
+            },
+            "http": {
+                "url": "{{baseUrl}}/post",
+                "method": "POST",
+                "body": "{ \"user\": \"{{userId}}\" }",
+                "parameters": {
+                    "skip": 1,
+                    "limit": 10
+                },
+                "headers": {
+                    "Content-Type": "application/json"
+                }
+            }
+        },
+        {
+            // Request 3
+            "meta": {
+                "name": "Update User",
+                "seq": 1
+            },
+            "http": {
+                "url": "{{baseUrl}}/put",
+                "method": "PUT",
+                "body": "{ \"user\": \"{{userId}}\" }",
+                "parameters": {
+                    "skip": 2,
+                    "limit": 10
+                },
+                "headers": {
+                    "Content-Type": "application/json"
+                }
+            }
+        }
+    ]
+}

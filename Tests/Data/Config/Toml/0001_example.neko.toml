@@ -1,0 +1,108 @@
+# 
+# Version & Root
+# 
+version = "neko@v1.0.0"
+root = true
+
+# 
+# Metadata & Collection Info 
+# 
+[meta]
+authors = "Gary Ascuy <gary.ascuy@gmail.com>"
+name = "Echo Demostration Collection"
+description = ""
+seq = 0
+
+# 
+# Plugins Configuration
+# 
+[meta.loader]
+name = "NekoFilePluginLoader"
+[meta.loader.properties]
+version = "v0.0.1"
+
+[meta.executor]
+name = "NekoNativePluginExecutor"
+[meta.executor.properties]
+version = "v0.0.1"
+
+[meta.tester]
+name = "NekoNativePluginTester"
+[meta.tester.properties]
+version = "v0.0.1"
+
+# 
+# Environment Variables
+# 
+[envs]
+baseUrl = "https://echo.nekoverse.me"
+userId = "7a0eed16-9430-4d68-901f-c0d4c1c3bf00"
+
+[[data]]
+"name" = "test"
+
+# 
+# Content Folders & Requests
+# 
+[[folders]]
+[[folders.requests]]
+
+# 
+# Request 1
+# 
+[folders.requests.meta]
+name = "Get User"
+seq = 0
+
+[folders.requests.http]
+url = "{{baseUrl}}/get"
+method = "GET"
+
+[folders.requests.http.parameters]
+limit = 2
+
+[folders.requests.http.headers]
+Content-Type = "application/json"
+Accept = "applicaiton/json"
+
+# 
+# Requests 2
+# 
+[[requests]]
+
+[requests.meta]
+name = "Create User"
+seq = 2
+
+[requests.http]
+url = "{{baseUrl}}/post"
+method = "POST"
+body = "{ \"user\": \"{{userId}}\" }"
+
+[requests.http.parameters]
+skip = 1
+limit = 10
+
+[requests.http.headers]
+Content-Type = "application/json"
+
+# 
+# Request 3
+# 
+[[requests]]
+
+[requests.meta]
+name = "Update User"
+seq = 1
+
+[requests.http]
+url = "{{baseUrl}}/put"
+method = "PUT"
+body = "{ \"user\": \"{{userId}}\" }"
+
+[requests.http.parameters]
+skip = 2
+limit = 10
+
+[requests.http.headers]
+Content-Type = "application/json"

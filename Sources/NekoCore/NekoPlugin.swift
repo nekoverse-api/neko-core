@@ -22,3 +22,11 @@ public struct NekoGitFriendlyLoaderPlugin: NekoLoaderPlugin {
         return try NekoFileLoader.load(type, fileName: fileName)
     }
 }
+
+public struct NekoGRPCLoaderPlugin: NekoLoaderPlugin {
+    public func load<T>(_ type: T.Type, fileName: String) async throws -> T
+    where T: Decodable {
+        // TODO: Loads from gRPC
+        return try NekoFileLoader.load(type, fileName: fileName)
+    }
+}

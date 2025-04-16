@@ -104,7 +104,7 @@ public struct NekoFileLoader {
         }
 
         if isToml(pathExtension) {
-            return try self.loadToml([T].self, fileName: path)
+            throw ConfigLoaderError.LoadDataUnsupportedFormatError
         }
 
         if isYaml(pathExtension) {
@@ -143,4 +143,5 @@ public struct NekoFileLoader {
 public enum ConfigLoaderError: Error {
     case UnsupportedFormatError
     case LoadUnsupportedFormatError
+    case LoadDataUnsupportedFormatError
 }

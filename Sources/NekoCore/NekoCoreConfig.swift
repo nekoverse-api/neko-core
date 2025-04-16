@@ -32,7 +32,7 @@ public typealias NekoEnvironment = [String: String]
 
 public struct NekoFolderConfig: Codable {
     let version: String
-    let root: Bool
+    let root: Bool?
 
     let meta: NekoFolderMetadata?
     let envs: NekoEnvironment?

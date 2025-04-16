@@ -68,20 +68,20 @@ public struct NekoFileLoader {
         }
     }
 
-    public static func load<T>(_ type: T.Type, fileName: String) throws -> T
+    public static func load<T>(_ type: T.Type, _ path: String) throws -> T
     where T: Decodable {
-        let pathExtension = getPathExtension(fileName)
+        let pathExtension = getPathExtension(path)
 
         if isJson(pathExtension) {
-            return try self.loadJson(type, fileName: fileName)
+            return try self.loadJson(type, fileName: path)
         }
 
         if isToml(pathExtension) {
-            return try self.loadToml(type, fileName: fileName)
+            return try self.loadToml(type, fileName: path)
         }
 
         if isYaml(pathExtension) {
-            return try self.loadYaml(type, fileName: fileName)
+            return try self.loadYaml(type, fileName: path)
         }
 
         if isCsv(pathExtension) {

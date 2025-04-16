@@ -86,7 +86,7 @@ struct NekoConfigBasicLoadSuite {
         let path = "./Tests/Data/Config/Basic/Basic.neko.csv"
 
         #expect(throws: ConfigLoaderError.LoadUnsupportedFormatError) {
-            try NekoFileLoader.load(NekoConfig.self, fileName: path)
+            try NekoFileLoader.load(NekoConfig.self, path)
         }
     }
 
@@ -94,7 +94,7 @@ struct NekoConfigBasicLoadSuite {
         let path = "./Tests/Data/Config/Basic/Basic.neko.xml"
 
         #expect(throws: ConfigLoaderError.UnsupportedFormatError) {
-            try NekoFileLoader.load(NekoConfig.self, fileName: path)
+            try NekoFileLoader.load(NekoConfig.self, path)
         }
     }
 
@@ -105,7 +105,7 @@ struct NekoConfigBasicLoadSuite {
         "./Tests/Data/Config/Error/Collection.NeKo.JSON",
     ])
     func testLoadBasicTomlConfig(path: String) throws {
-        let config = try NekoFileLoader.load(NekoConfig.self, fileName: path)
+        let config = try NekoFileLoader.load(NekoConfig.self, path)
 
         #expect("neko@v1.0.0".isEqual(config.version))
     }

@@ -13,11 +13,12 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.5.0"),
         .package(url: "https://github.com/jpsim/Yams.git", from: "5.3.1"),
         .package(url: "https://github.com/dduan/TOMLDecoder", from: "0.3.1"),
+        .package(url: "https://github.com/yaslab/CSV.swift.git", from: "2.5.2"),
     ],
     targets: [
         .target(
             name: "NekoCore",
-            dependencies: ["Yams", "TOMLDecoder"],
+            dependencies: ["Yams", "TOMLDecoder", .product(name: "CSV", package: "CSV.swift")],
             path: "Sources/NekoCore"
         ),
         .testTarget(

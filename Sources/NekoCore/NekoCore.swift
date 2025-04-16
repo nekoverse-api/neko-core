@@ -1,3 +1,4 @@
+import CSV
 import Foundation
 import TOMLDecoder
 import Yams
@@ -46,6 +47,27 @@ public struct NekoFileLoader {
         }
     }
 
+    public static func loadCsv<T>(_ type: T.Type, _ path: String) throws -> [T]
+    where T: Decodable {
+        let decoder = CSVRowDecoder()
+
+        do {
+            let url = URL(fileURLWithPath: path)
+            let data = try Data(contentsOf: url)
+            let value = String(decoding: data, as: UTF8.self)
+            let reader = try CSVReader(string: value, hasHeaderRow: true, trimFields: true)
+
+            var records = [T]()
+            while reader.next() != nil {
+                let row = try decoder.decode(type, from: reader)
+                records.append(row)
+            }
+            return records
+        } catch {
+            throw error
+        }
+    }
+
     public static func load<T>(_ type: T.Type, fileName: String) throws -> T
     where T: Decodable {
         let pathExtension = getPathExtension(fileName)
@@ -60,6 +82,33 @@ public struct NekoFileLoader {
 
         if isYaml(pathExtension) {
             return try self.loadYaml(type, fileName: fileName)
+        }
+
+        if isCsv(pathExtension) {
+            throw ConfigLoaderError.LoadUnsupportedFormatError
+        }
+
+        throw ConfigLoaderError.UnsupportedFormatError
+    }
+
+    public static func loadData<T>(_ type: T.Type, _ path: String) throws -> [T]
+    where T: Decodable {
+        let pathExtension = getPathExtension(path)
+
+        if isCsv(pathExtension) {
+            return try loadCsv(type, path)
+        }
+
+        if isJson(pathExtension) {
+            return try loadJson([T].self, fileName: path)
+        }
+
+        if isToml(pathExtension) {
+            return try self.loadToml([T].self, fileName: path)
+        }
+
+        if isYaml(pathExtension) {
+            return try self.loadYaml([T].self, fileName: path)
         }
 
         throw ConfigLoaderError.UnsupportedFormatError
@@ -84,8 +133,14 @@ public struct NekoFileLoader {
         let EXTENSIONS = ["yaml", "yml"]
         return EXTENSIONS.contains { $0.isEqual(pathExtension) }
     }
+
+    public static func isCsv(_ pathExtension: String) -> Bool {
+        let EXTENSIONS = ["csv"]
+        return EXTENSIONS.contains { $0.isEqual(pathExtension) }
+    }
 }
 
 public enum ConfigLoaderError: Error {
     case UnsupportedFormatError
+    case LoadUnsupportedFormatError
 }

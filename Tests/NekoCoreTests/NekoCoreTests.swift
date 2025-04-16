@@ -11,6 +11,11 @@ public struct TestNestedConfig: Decodable {
     let config: TestConfig
 }
 
+public struct TestCsvNestedConfig: Decodable {
+    let value: String
+    let config: TestConfig
+}
+
 @Suite
 class NekoFileJsonLoaderSuite {
     @Test func testLoadJsonConfig() throws {
@@ -78,5 +83,27 @@ class NekoFileTomlLoaderSuite {
 
         #expect("Gary Ascuy".isEqual(config.name))
         #expect("Nested Gary Ascuy".isEqual(config.config.name))
+    }
+}
+
+@Suite
+class NekoFileCsvLoaderSuite {
+    @Test func testLoadCsvConfig() throws {
+        let path = "./Tests/Data/Loader/Csv/TestConfig.csv"
+        let configs = try NekoFileLoader.loadCsv(TestConfig.self, path)
+
+        #expect(configs.count == 2)
+        #expect("Gary Ascuy".isEqual(configs[0].name))
+        #expect("Gory Ascuy".isEqual(configs[1].name))
+    }
+
+    // TODO: Update library or reader to support nested objects without trick
+    @Test func testLoadNestedCsvConfig() throws {
+        let path = "./Tests/Data/Loader/Csv/TestNestedConfig.csv"
+        let configs = try NekoFileLoader.loadCsv(TestCsvNestedConfig.self, path)
+
+        #expect(configs.count == 2)
+        #expect("Gary Ascuy".isEqual(configs[0].value))
+        #expect("Nested Gary Ascuy".isEqual(configs[0].config.name))
     }
 }

@@ -6,7 +6,7 @@ typealias Utils = NekoFileLoader.Utils
 typealias NekoFile = NekoFileLoader.NekoFile
 
 @Suite
-struct NekoConfigUtilsSuite {
+struct NekoFileLoaderUtilsSuite {
     @Test(
         arguments: zip(
             [
@@ -37,14 +37,14 @@ struct NekoConfigUtilsSuite {
             ]
         )
     )
-    func testLoadBasicTomlConfig(path: String, expectedPathExtension: String) throws {
+    func testGetExtensionMethod(path: String, expectedPathExtension: String) throws {
         let pathExtension = Utils.getPathExtension(path)
 
         #expect(expectedPathExtension.isEqual(pathExtension))
     }
 
     @Test
-    func testIsJson() {
+    func testIsTypeFileMethods() {
         #expect(Utils.isJson("json"))
         #expect(Utils.isJson("jsonc"))
         #expect(Utils.isJson("gary") == false)
@@ -63,29 +63,40 @@ struct NekoConfigUtilsSuite {
 }
 
 @Suite
-struct NekoConfigBasicLoadSuite {
-    @Test func testLoadBasicJsonConfig() throws {
+struct NekoFileLoaderNekoFileSuite {
+    @Test func testLoadJsonMethod() throws {
         let path = "./Tests/Data/Config/Basic/Basic.neko.json"
         let config = try NekoFile.loadJson(NekoConfig.self, path)
 
         #expect("neko@v1.0.0".isEqual(config.version))
     }
 
-    @Test func testLoadBasicTomlConfig() throws {
+    @Test func testLoadTomlMethod() throws {
         let path = "./Tests/Data/Config/Basic/Basic.neko.toml"
         let config = try NekoFile.loadToml(NekoConfig.self, path)
 
         #expect("neko@v1.0.0".isEqual(config.version))
     }
 
-    @Test func testLoadBasicYamlConfig() throws {
+    @Test func testLoadYamlMethod() throws {
         let path = "./Tests/Data/Config/Basic/Basic.neko.yaml"
         let config = try NekoFile.loadYaml(NekoConfig.self, path)
 
         #expect("neko@v1.0.0".isEqual(config.version))
     }
 
-    @Test func testLoadBasicCsvConfigThrowsError() throws {
+    @Test func testLoadCsvMethod() throws {
+        let path = "./Tests/Data/Config/Basic/Basic.neko.csv"
+        let configs = try NekoFile.loadCsv(NekoConfig.self, path)
+
+        #expect(configs.count == 1)
+        #expect("neko@v1.0.0".isEqual(configs[0].version))
+    }
+}
+
+@Suite
+struct NekoFileLoaderSuite {
+    @Test func testLoadMethodCsvError() throws {
         let path = "./Tests/Data/Config/Basic/Basic.neko.csv"
 
         #expect(throws: ConfigFileLoaderError.LoadUnsupportedFormatError) {
@@ -93,7 +104,7 @@ struct NekoConfigBasicLoadSuite {
         }
     }
 
-    @Test func testLoadBasicCustomFileConfigThrowsError() throws {
+    @Test func testLoadMethodCustomFileError() throws {
         let path = "./Tests/Data/Config/Basic/Basic.neko.xml"
 
         #expect(throws: ConfigFileLoaderError.UnsupportedFormatError) {
@@ -107,16 +118,13 @@ struct NekoConfigBasicLoadSuite {
         "./Tests/Data/Config/Basic/Basic.neko.yaml",
         "./Tests/Data/Config/Error/Collection.NeKo.JSON",
     ])
-    func testLoadBasicTomlConfig(path: String) throws {
+    func testLoadMethodBasicConfig(path: String) throws {
         let config = try NekoFileLoader.load(NekoConfig.self, path)
 
         #expect("neko@v1.0.0".isEqual(config.version))
     }
-}
 
-@Suite
-struct NekoConfigBasicLoadDataSuite {
-    @Test func testLoadDataBasicTomlConfigThrowsError() throws {
+    @Test func testLoadDataMethodTomlError() throws {
         let path = "./Tests/Data/Config/Basic/Basic.neko.toml"
 
         #expect(throws: ConfigFileLoaderError.LoadDataUnsupportedFormatError) {
@@ -124,7 +132,7 @@ struct NekoConfigBasicLoadDataSuite {
         }
     }
 
-    @Test func testLoadDataBasicCustomFileConfigThrowsError() throws {
+    @Test func testLoadDataMethodCustomFileError() throws {
         let path = "./Tests/Data/Config/Basic/Basic.neko.xls"
 
         #expect(throws: ConfigFileLoaderError.UnsupportedFormatError) {
@@ -137,7 +145,7 @@ struct NekoConfigBasicLoadDataSuite {
         "./Tests/Data/Loader/Json/ArrayTestConfig.json",
         "./Tests/Data/Loader/Yaml/ArrayTestConfig.yaml",
     ])
-    func testLoadBasicTomlConfig(path: String) throws {
+    func testLoadDataMethodBasicArray(path: String) throws {
         let configs = try NekoFileLoader.loadData(NekoConfig.self, path)
 
         #expect(configs.count == 2)

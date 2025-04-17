@@ -2,6 +2,9 @@ import Testing
 
 @testable import NekoCore
 
+typealias Utils = NekoFileLoader.Utils
+typealias NekoFile = NekoFileLoader.NekoFile
+
 @Suite
 struct NekoConfigUtilsSuite {
     @Test(
@@ -35,27 +38,27 @@ struct NekoConfigUtilsSuite {
         )
     )
     func testLoadBasicTomlConfig(path: String, expectedPathExtension: String) throws {
-        let pathExtension = NekoFileLoader.getPathExtension(path)
+        let pathExtension = Utils.getPathExtension(path)
 
         #expect(expectedPathExtension.isEqual(pathExtension))
     }
 
     @Test
     func testIsJson() {
-        #expect(NekoFileLoader.isJson("json"))
-        #expect(NekoFileLoader.isJson("jsonc"))
-        #expect(NekoFileLoader.isJson("gary") == false)
+        #expect(Utils.isJson("json"))
+        #expect(Utils.isJson("jsonc"))
+        #expect(Utils.isJson("gary") == false)
 
-        #expect(NekoFileLoader.isToml("toml"))
-        #expect(NekoFileLoader.isToml("neko"))
-        #expect(NekoFileLoader.isToml("gary") == false)
+        #expect(Utils.isToml("toml"))
+        #expect(Utils.isToml("neko"))
+        #expect(Utils.isToml("gary") == false)
 
-        #expect(NekoFileLoader.isYaml("yaml"))
-        #expect(NekoFileLoader.isYaml("yml"))
-        #expect(NekoFileLoader.isYaml("gary") == false)
+        #expect(Utils.isYaml("yaml"))
+        #expect(Utils.isYaml("yml"))
+        #expect(Utils.isYaml("gary") == false)
 
-        #expect(NekoFileLoader.isCsv("csv"))
-        #expect(NekoFileLoader.isCsv("gary") == false)
+        #expect(Utils.isCsv("csv"))
+        #expect(Utils.isCsv("gary") == false)
     }
 }
 
@@ -63,21 +66,21 @@ struct NekoConfigUtilsSuite {
 struct NekoConfigBasicLoadSuite {
     @Test func testLoadBasicJsonConfig() throws {
         let path = "./Tests/Data/Config/Basic/Basic.neko.json"
-        let config = try NekoFileLoader.loadJson(NekoConfig.self, path)
+        let config = try NekoFile.loadJson(NekoConfig.self, path)
 
         #expect("neko@v1.0.0".isEqual(config.version))
     }
 
     @Test func testLoadBasicTomlConfig() throws {
         let path = "./Tests/Data/Config/Basic/Basic.neko.toml"
-        let config = try NekoFileLoader.loadToml(NekoConfig.self, path)
+        let config = try NekoFile.loadToml(NekoConfig.self, path)
 
         #expect("neko@v1.0.0".isEqual(config.version))
     }
 
     @Test func testLoadBasicYamlConfig() throws {
         let path = "./Tests/Data/Config/Basic/Basic.neko.yaml"
-        let config = try NekoFileLoader.loadYaml(NekoConfig.self, path)
+        let config = try NekoFile.loadYaml(NekoConfig.self, path)
 
         #expect("neko@v1.0.0".isEqual(config.version))
     }
@@ -85,7 +88,7 @@ struct NekoConfigBasicLoadSuite {
     @Test func testLoadBasicCsvConfigThrowsError() throws {
         let path = "./Tests/Data/Config/Basic/Basic.neko.csv"
 
-        #expect(throws: ConfigLoaderError.LoadUnsupportedFormatError) {
+        #expect(throws: ConfigFileLoaderError.LoadUnsupportedFormatError) {
             try NekoFileLoader.load(NekoConfig.self, path)
         }
     }
@@ -93,7 +96,7 @@ struct NekoConfigBasicLoadSuite {
     @Test func testLoadBasicCustomFileConfigThrowsError() throws {
         let path = "./Tests/Data/Config/Basic/Basic.neko.xml"
 
-        #expect(throws: ConfigLoaderError.UnsupportedFormatError) {
+        #expect(throws: ConfigFileLoaderError.UnsupportedFormatError) {
             try NekoFileLoader.load(NekoConfig.self, path)
         }
     }
@@ -116,7 +119,7 @@ struct NekoConfigBasicLoadDataSuite {
     @Test func testLoadDataBasicTomlConfigThrowsError() throws {
         let path = "./Tests/Data/Config/Basic/Basic.neko.toml"
 
-        #expect(throws: ConfigLoaderError.LoadDataUnsupportedFormatError) {
+        #expect(throws: ConfigFileLoaderError.LoadDataUnsupportedFormatError) {
             try NekoFileLoader.loadData(NekoConfig.self, path)
         }
     }
@@ -124,7 +127,7 @@ struct NekoConfigBasicLoadDataSuite {
     @Test func testLoadDataBasicCustomFileConfigThrowsError() throws {
         let path = "./Tests/Data/Config/Basic/Basic.neko.xls"
 
-        #expect(throws: ConfigLoaderError.UnsupportedFormatError) {
+        #expect(throws: ConfigFileLoaderError.UnsupportedFormatError) {
             try NekoFileLoader.loadData(NekoConfig.self, path)
         }
     }

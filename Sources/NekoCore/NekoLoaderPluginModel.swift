@@ -1,3 +1,5 @@
+import SwiftyJSON
+
 public struct NekoPlugin: Codable {
     let name: String?
     let properties: [String: String]
@@ -27,7 +29,7 @@ public struct NekoRequestMetadata: Codable {
     let tester: NekoPlugin?
 }
 
-public typealias NekoData = [[String: String]]  // TODO: Review
+public typealias NekoData = [[String: JSON]]
 public typealias NekoEnvironment = [String: String]
 
 public struct NekoFolderConfig: Codable {

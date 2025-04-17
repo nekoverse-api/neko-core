@@ -15,6 +15,7 @@ let package = Package(
         .package(url: "https://github.com/dduan/TOMLDecoder", from: "0.3.1"),
         .package(url: "https://github.com/yaslab/CSV.swift.git", from: "2.5.2"),
         .package(url: "https://github.com/SwiftyJSON/SwiftyJSON.git", from: "4.0.0"),
+        .package(url: "https://github.com/groue/GRMustache.swift", from: "6.0.0"),
     ],
     targets: [
         .target(
@@ -24,6 +25,7 @@ let package = Package(
                 "TOMLDecoder",
                 .product(name: "CSV", package: "CSV.swift"),
                 "SwiftyJSON",
+                .product(name: "Mustache", package: "GRMustache.swift"),
             ],
             path: "Sources/NekoCore"
         ),

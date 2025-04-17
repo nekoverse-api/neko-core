@@ -1,5 +1,5 @@
 {
-  "originHash" : "cbb2dcadca71d58873db05284f248f7ec6ee7f1abd799e154168717208039a10",
+  "originHash" : "ca2ca3d8df7bf490b143f8b8569c6dbb5128b5e8454e72ceb29e182423bc0082",
   "pins" : [
     {
       "identity" : "csv.swift",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "b4371dc833ba22ab6ead90fb63d267c3cf9ce773",
         "version" : "2.5.2"
+      }
+    },
+    {
+      "identity" : "grmustache.swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/groue/GRMustache.swift",
+      "state" : {
+        "revision" : "811326995377af216b970ae3afb0645ca94986c8",
+        "version" : "6.0.0"
       }
     },
     {

@@ -15,5 +15,5 @@ public protocol NekoLoaderPlugin {
 // NekoExecutorPlugin is used to execute a request
 //
 public protocol NekoExecutorPlugin {
-    func execute(_ request: String) async throws -> String
+    func execute(_ request: NekoRequest) async throws -> NekoResponse
 }

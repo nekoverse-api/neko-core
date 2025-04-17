@@ -1,4 +1,5 @@
 import ArgumentParser
+import Logging
 import NekoCore
 
 struct RunNekoCommand: AsyncParsableCommand {

@@ -17,3 +17,9 @@ public protocol NekoLoaderPlugin {
 public protocol NekoExecutorPlugin {
     func execute(_ request: NekoRequest) async throws -> NekoResponse
 }
+
+public struct Neko {
+    public static func execute() async throws {
+
+    }
+}

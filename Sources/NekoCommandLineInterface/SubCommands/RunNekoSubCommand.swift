@@ -6,6 +6,12 @@ struct RunNekoCommand: AsyncParsableCommand {
         abstract: "Runs Neko Project."
     )
 
+    @OptionGroup
+    var plugin: PluginOptions
+
+    @OptionGroup
+    var general: GeneralOptions
+
     func run() async throws {
         print("run project")
     }

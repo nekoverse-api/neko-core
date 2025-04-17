@@ -12,16 +12,22 @@ struct ShowNekoCommand: AsyncParsableCommand {
         abstract: "Shows Neko Project Config."
     )
 
-    @Flag(name: .shortAndLong, help: "Shows requests summary.")
+    @OptionGroup
+    var plugin: PluginOptions
+
+    @OptionGroup
+    var general: GeneralOptions
+
+    @Flag(name: .shortAndLong, help: "Shows requests summary, Default = False.")
     var showSummary: Bool = false
 
-    @Option(name: .shortAndLong, help: "File format to export.")
-    var format: Format
+    @Option(name: .shortAndLong, help: "File format to export, Default = toml.")
+    var outputFormat: Format = .toml
 
     @Argument
     var path: String
 
     func run() async throws {
-        print("show config \(path) with \(showSummary)")
+        print("show config \(path) with \(showSummary) and \(plugin.loaderProperties)")
     }
 }

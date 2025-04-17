@@ -11,6 +11,11 @@ enum Executor: String, ExpressibleByArgument, CaseIterable {
     case gRPC
 }
 
+enum Tester: String, ExpressibleByArgument, CaseIterable {
+    case Native
+    case gRPC
+}
+
 struct PluginProperty: Codable {
     var key: String
     var value: String
@@ -41,4 +46,10 @@ struct PluginOptions: ParsableArguments {
 
     @Option(help: "Executor plugin properties", transform: PluginProperty.init)
     var executorProperties: [PluginProperty] = []
+
+    @Option(name: .shortAndLong, help: "Tester plugin name, Default = Native.")
+    var testerPlugin: Tester = .Native
+
+    @Option(help: "Tester plugin properties", transform: PluginProperty.init)
+    var testerProperties: [PluginProperty] = []
 }

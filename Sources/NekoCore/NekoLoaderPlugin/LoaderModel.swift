@@ -1,8 +1,8 @@
 import SwiftyJSON
 
 public struct NekoPlugin: Codable {
-    let name: String?
-    let properties: [String: String]
+    public var name: String?
+    public var properties: [String: String]
 }
 
 public struct NekoFolderMetadata: Codable {

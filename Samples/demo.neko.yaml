@@ -1,0 +1,64 @@
+version: neko@v1.0.0
+root: true
+meta:
+  name: Echo Demostration Collection
+  description: ''
+  seq: 0
+  authors:
+  - Gary Ascuy <gary.ascuy@gmail.com>
+  loader:
+    name: NekoFilePluginLoader
+    properties:
+      version: v0.0.1
+  executor:
+    name: NekoNativePluginExecutor
+    properties:
+      version: v0.0.1
+  tester:
+    name: NekoNativePluginTester
+    properties:
+      version: v0.0.1
+envs:
+  userId: 7a0eed16-9430-4d68-901f-c0d4c1c3bf00
+  baseUrl: https://echo.nekoverse.me
+data:
+- name: test
+folders:
+- requests:
+  - meta:
+      name: 0 Get User
+      seq: 0
+    http:
+      url: '{{baseUrl}}/get'
+      method: GET
+      parameters:
+        limit: '2'
+      headers:
+        Accept: applicaiton/json
+        Content-Type: application/json
+requests:
+- meta:
+    name: 2 Create User
+    seq: 2
+  http:
+    url: '{{baseUrl}}/post'
+    method: POST
+    body: '{ "user": "{{userId}}" }'
+    parameters:
+      limit: '10'
+      skip: '1'
+    headers:
+      Content-Type: application/json
+- meta:
+    name: 1 Update User
+    seq: 1
+  http:
+    url: '{{baseUrl}}/put'
+    method: PUT
+    body: '{ "user": "{{userId}}" }'
+    parameters:
+      skip: '2'
+      limit: '10'
+    headers:
+      Content-Type: application/json
+

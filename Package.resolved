@@ -1,5 +1,5 @@
 {
-  "originHash" : "cd8194ff6541ff200f37b2c65d84e6ce038fdce5a9afb18775e1f99c8710061b",
+  "originHash" : "648e87a14ea540eec06ff6c3941c5c67f834a3da034cd868a5017a34fd8c58d5",
   "pins" : [
     {
       "identity" : "csv.swift",
@@ -17,6 +17,15 @@
       "state" : {
         "revision" : "811326995377af216b970ae3afb0645ca94986c8",
         "version" : "6.0.0"
+      }
+    },
+    {
+      "identity" : "rainbow",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/onevcat/Rainbow",
+      "state" : {
+        "revision" : "0c627a4f8a39ef37eadec1ceec02e4a7f55561ac",
+        "version" : "4.1.0"
       }
     },
     {

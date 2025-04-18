@@ -1,6 +1,7 @@
 import ArgumentParser
 import Logging
 import NekoCore
+import Rainbow
 
 struct RunNekoCommand: AsyncParsableCommand {
     static let configuration = CommandConfiguration(
@@ -19,10 +20,10 @@ struct RunNekoCommand: AsyncParsableCommand {
 
     func run() async throws {
         do {
-            print("Starting execution")
+            print("Starting execution".blue)
             let params = buildExecutionParams(path: path, plugin: plugin, general: general)
             try await NekoCore.execute(params)
-            print("Completed successfully")
+            print("Completed successfully".green)
         } catch {
             throw error
         }

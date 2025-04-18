@@ -3,7 +3,7 @@
 // Author: Gary Ascuy
 // Version: 0.0.1 (neko@v0.0.1)
 //
-import os
+import Rainbow
 
 //
 // NekoLoaderPlugin is used to load configuration
@@ -39,6 +39,28 @@ extension NekoCore {
     }
 
     public static func execute(_ params: ExecuteParams) async throws {
-        print("NekoCore Execute")
+        print("NekoCore Execute".green)
+
+        let loader = NekoCore.Factory.getLoader(params.loader)
+        let config = try await loader.load(params.path)
+
+        let executor = NekoCore.Factory.getExecutor(params.executor)
+        // executor.execute(NekoRequest)
+        print(config)
+
+        // load
+        // sort
+        // folders
+        // requests
+        // execute
+        // folders
+        // requests
+
+    }
+
+    public static func executeFolder() {
+    }
+
+    public static func executeRequest() {
     }
 }

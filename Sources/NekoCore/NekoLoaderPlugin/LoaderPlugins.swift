@@ -1,22 +1,22 @@
 //
 // Plugin that loads JSON, JSONC, TOML, NEKO, YAML, YML, CSV files
 //
-public struct NekoFileLoaderPlugin: NekoLoaderPlugin {
+public struct NativeLoaderPlugin: NekoLoaderPlugin {
     public func load(_ path: String) async throws -> NekoConfig {
         return try NekoFileLoader.load(NekoConfig.self, path)
     }
 }
 
-public struct NekoGitFriendlyLoaderPlugin: NekoLoaderPlugin {
+// TODO: Loads using folders partialy
+public struct GitFriendlyLoaderPlugin: NekoLoaderPlugin {
     public func load(_ path: String) async throws -> NekoConfig {
-        // TODO: Loads using folders partialy
         return try NekoFileLoader.load(NekoConfig.self, path)
     }
 }
 
-public struct NekoGRPCLoaderPlugin: NekoLoaderPlugin {
+// TODO: Loads from gRPC
+public struct GRPCLoaderPlugin: NekoLoaderPlugin {
     public func load(_ path: String) async throws -> NekoConfig {
-        // TODO: Loads from gRPC
         return try NekoFileLoader.load(NekoConfig.self, path)
     }
 }

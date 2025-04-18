@@ -17,6 +17,7 @@ let package = Package(
         .package(url: "https://github.com/SwiftyJSON/SwiftyJSON.git", from: "4.0.0"),
         .package(url: "https://github.com/groue/GRMustache.swift", from: "6.0.0"),
         .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0"),
+        .package(url: "https://github.com/onevcat/Rainbow", .upToNextMajor(from: "4.1.0")),
     ],
     targets: [
         .target(
@@ -28,6 +29,7 @@ let package = Package(
                 "SwiftyJSON",
                 .product(name: "Mustache", package: "GRMustache.swift"),
                 .product(name: "Logging", package: "swift-log"),
+                "Rainbow",
             ],
             path: "Sources/NekoCore"
         ),

@@ -39,6 +39,16 @@ extension NekoCore {
         public var verbose: Bool = false
     }
 
+    public static func getConfig(_ params: ExecuteParams) async throws -> NekoConfig {
+        do {
+            let loader = NekoCore.Factory.getLoader(params.loader)
+            let value = try await loader.load(params.path)
+            return value
+        } catch {
+            throw error
+        }
+    }
+
     public static func execute(_ params: ExecuteParams) async throws {
         print("NekoCore Execute".green)
 

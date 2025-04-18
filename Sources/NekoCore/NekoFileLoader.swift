@@ -45,7 +45,7 @@ public struct NekoFileLoader {
     /**
      * Loads different file formats
      */
-    struct NekoFile {
+    public struct NekoFile {
         public static func loadJson<T>(_ type: T.Type, _ path: String) throws -> T
         where T: Decodable {
             let decoder = JSONDecoder()
@@ -114,6 +114,8 @@ public struct NekoFileLoader {
         where T: Encodable {
             do {
                 let encoder = JSONEncoder()
+                encoder.outputFormatting = .prettyPrinted
+
                 let data = try encoder.encode(value)
                 guard let string = String(data: data, encoding: .utf8) else {
                     throw ConfigFileLoaderError.UnableToConvertAsString

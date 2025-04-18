@@ -44,21 +44,17 @@ extension NekoCore {
     public struct Factory {
         public static func getLoader(_ plugin: NekoPlugin) -> NekoLoaderPlugin {
             if LoaderFactoryUtils.isNative(plugin) {
-                print("Using Native Loader Plugin")
                 return NativeLoaderPlugin()
             }
 
             if LoaderFactoryUtils.isGitFriendly(plugin) {
-                print("Using GitFriendly Loader Plugin")
                 return GitFriendlyLoaderPlugin()
             }
 
             if LoaderFactoryUtils.isGRPC(plugin) {
-                print("Using gRPC Loader Plugin")
                 return GRPCLoaderPlugin()
             }
 
-            print("Using Native Loader Plugin as default")
             return NativeLoaderPlugin()
         }
 

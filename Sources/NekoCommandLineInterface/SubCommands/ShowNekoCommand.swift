@@ -1,4 +1,5 @@
 import ArgumentParser
+import NekoCore
 
 enum Format: String, ExpressibleByArgument, CaseIterable {
     case json
@@ -28,6 +29,20 @@ struct ShowNekoCommand: AsyncParsableCommand {
     var path: String
 
     func run() async throws {
-        print("show config \(path) with \(showSummary) and \(plugin.loaderProperties)")
+        do {
+            let params = buildExecutionParams(path: path, plugin: plugin, general: general)
+            let config = try await NekoCore.getConfig(params)
+            let string =
+                switch outputFormat {
+                case .json: try NekoFileLoader.NekoFile.asJson(config)
+                case .yaml: try NekoFileLoader.NekoFile.asYaml(config)
+                case .toml: try NekoFileLoader.NekoFile.asToml(config)
+                }
+            print(string)
+
+        } catch {
+            print("Unable to show config from \(path)".red)
+            throw error
+        }
     }
 }

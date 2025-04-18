@@ -48,6 +48,20 @@ for tests
 swift run neko run ./Samples/config.neko.json 
 ```
 
+Show 
+```sh
+brew install jq # Json Query 
+brew install yq # Yaml Query
+brew install tq # Toml Query
+brew install dasel # Toml Query but also support JSON, YAML, TOML, XML
+
+swift run neko show --output-format json  ./Samples/demo.neko.jsonc | jq
+swift run neko show --output-format yaml ./Samples/demo.neko.jsonc | yq
+swift run neko show --output-format toml ./Samples/demo.neko.jsonc | tq .
+swift run neko show --output-format toml ./Samples/demo.neko.jsonc | dasel -r toml
+
+```
+
 ## Trademark
 
 **Logo**

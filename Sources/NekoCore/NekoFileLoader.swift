@@ -1,12 +1,14 @@
 import CSV
 import Foundation
 import TOMLDecoder
+import TOMLKit
 import Yams
 
 public enum ConfigFileLoaderError: Error {
     case UnsupportedFormatError
     case LoadUnsupportedFormatError
     case LoadDataUnsupportedFormatError
+    case UnableToConvertAsString
 }
 
 public struct NekoFileLoader {
@@ -103,6 +105,41 @@ public struct NekoFileLoader {
                     records.append(row)
                 }
                 return records
+            } catch {
+                throw error
+            }
+        }
+
+        public static func asJson<T>(_ value: T) throws -> String
+        where T: Encodable {
+            do {
+                let encoder = JSONEncoder()
+                let data = try encoder.encode(value)
+                guard let string = String(data: data, encoding: .utf8) else {
+                    throw ConfigFileLoaderError.UnableToConvertAsString
+                }
+                return string
+            } catch {
+                throw error
+            }
+        }
+
+        public static func asYaml<T>(_ value: T) throws -> String
+        where T: Encodable {
+            do {
+                let encoder = YAMLEncoder()
+                return try encoder.encode(value)
+            } catch {
+                throw error
+            }
+        }
+
+        public static func asToml<T>(_ value: T) throws -> String
+        where T: Encodable {
+            do {
+                // TODO: this is the second lib to encode/decode TOML (Refactor)
+                let encoder = TOMLEncoder()
+                return try encoder.encode(value)
             } catch {
                 throw error
             }

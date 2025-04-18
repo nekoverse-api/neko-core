@@ -3,6 +3,7 @@
 // Author: Gary Ascuy
 // Version: 0.0.1 (neko@v0.0.1)
 //
+import Foundation
 import Rainbow
 
 //
@@ -44,9 +45,15 @@ extension NekoCore {
         let loader = NekoCore.Factory.getLoader(params.loader)
         let config = try await loader.load(params.path)
 
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+
+        let json = try? encoder.encode(config)
+        print("JSON".blue.bold)
+        print(String(data: json!, encoding: .utf8)!)
+
         let executor = NekoCore.Factory.getExecutor(params.executor)
         // executor.execute(NekoRequest)
-        print(config)
 
         // load
         // sort
@@ -58,9 +65,10 @@ extension NekoCore {
 
     }
 
-    public static func executeFolder() {
+    public static func executeFolder(_ folder: NekoFolderConfig) {
     }
 
-    public static func executeRequest() {
+    public static func executeRequest(_ request: NekoRequestConfig) {
+
     }
 }

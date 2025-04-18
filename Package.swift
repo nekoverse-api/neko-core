@@ -18,6 +18,7 @@ let package = Package(
         .package(url: "https://github.com/groue/GRMustache.swift", from: "6.0.0"),
         .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0"),
         .package(url: "https://github.com/onevcat/Rainbow", .upToNextMajor(from: "4.1.0")),
+        .package(url: "https://github.com/LebJe/TOMLKit.git", from: "0.5.0"),
     ],
     targets: [
         .target(
@@ -30,6 +31,7 @@ let package = Package(
                 .product(name: "Mustache", package: "GRMustache.swift"),
                 .product(name: "Logging", package: "swift-log"),
                 "Rainbow",
+                .product(name: "TOMLKit", package: "TOMLKit"),
             ],
             path: "Sources/NekoCore"
         ),

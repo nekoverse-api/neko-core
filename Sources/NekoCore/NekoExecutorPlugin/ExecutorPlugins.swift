@@ -1,4 +1,4 @@
-public struct NativeExecutorPlugin: NekoExecutorPlugin {
+public class NativeExecutorPlugin: NekoExecutorPlugin {
     public func execute(_ request: NekoRequest) async throws -> NekoResponse {
         print("Gary Ascuy")
         throw NekoError.NotImplementedYet
@@ -6,7 +6,7 @@ public struct NativeExecutorPlugin: NekoExecutorPlugin {
 }
 
 // TODO: Execute using gRPC
-public struct GRPCExecutorPlugin: NekoExecutorPlugin {
+public class GRPCExecutorPlugin: NekoExecutorPlugin {
     public func execute(_ request: NekoRequest) async throws -> NekoResponse {
         print("Gary Ascuy")
         throw NekoError.NotImplementedYet

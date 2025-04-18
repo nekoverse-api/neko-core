@@ -19,11 +19,8 @@ struct ShowNekoCommand: AsyncParsableCommand {
     @OptionGroup
     var general: GeneralOptions
 
-    @Flag(name: .shortAndLong, help: "Shows requests summary, Default = False.")
-    var showSummary: Bool = false
-
-    @Option(name: .shortAndLong, help: "File format to export, Default = toml.")
-    var outputFormat: Format = .toml
+    @Option(name: .shortAndLong, help: "File format to export, Default = yaml.")
+    var outputFormat: Format = .yaml
 
     @Argument
     var path: String
@@ -39,7 +36,6 @@ struct ShowNekoCommand: AsyncParsableCommand {
                 case .toml: try NekoFileLoader.NekoFile.asToml(config)
                 }
             print(string)
-
         } catch {
             print("Unable to show config from \(path)".red)
             throw error

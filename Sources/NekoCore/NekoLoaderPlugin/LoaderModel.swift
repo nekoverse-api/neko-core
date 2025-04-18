@@ -6,59 +6,59 @@ public struct NekoPlugin: Codable {
 }
 
 public struct NekoFolderMetadata: Codable {
-    let name: String?
-    let description: String?
-    let seq: Int64?
-    let authors: [String]?
+    public var name: String?
+    public var description: String?
+    public var seq: Int64?
+    public var authors: [String]?
 
-    let loader: NekoPlugin?
-    let executor: NekoPlugin?
-    let tester: NekoPlugin?
+    public var loader: NekoPlugin?
+    public var executor: NekoPlugin?
+    public var tester: NekoPlugin?
 }
 
 public struct NekoRequestMetadata: Codable {
-    let version: String?
-    let authors: [String]?
+    public var version: String?
+    public var authors: [String]?
 
-    let name: String?
-    let description: String?
-    let seq: Int64?
+    public var name: String?
+    public var description: String?
+    public var seq: Int64?
 
-    let loader: NekoPlugin?
-    let executor: NekoPlugin?
-    let tester: NekoPlugin?
+    public var loader: NekoPlugin?
+    public var executor: NekoPlugin?
+    public var tester: NekoPlugin?
 }
 
 public typealias NekoData = [[String: JSON]]
 public typealias NekoEnvironment = [String: String]
 
 public struct NekoFolderConfig: Codable {
-    let version: String?
-    let root: Bool?
+    public var version: String?
+    public var root: Bool?
 
-    let meta: NekoFolderMetadata?
-    let envs: NekoEnvironment?
-    let data: NekoData?
+    public var meta: NekoFolderMetadata?
+    public var envs: NekoEnvironment?
+    public var data: NekoData?
 
-    let folders: [NekoFolderConfig]?
-    let requests: [NekoRequestConfig]?
+    public var folders: [NekoFolderConfig]?
+    public var requests: [NekoRequestConfig]?
 }
 
 public struct NekoHttp: Codable {
-    let url: String
-    let method: String
+    public var url: String
+    public var method: String
 
-    let body: String?
-    let parameters: [String: String]?
-    let headers: [String: String]?
+    public var body: String?
+    public var parameters: [String: String]?
+    public var headers: [String: String]?
 }
 
 public struct NekoRequestConfig: Codable {
-    let meta: NekoRequestMetadata?
-    let envs: NekoEnvironment?
-    let data: NekoData?
+    public var meta: NekoRequestMetadata?
+    public var envs: NekoEnvironment?
+    public var data: NekoData?
 
-    let http: NekoHttp
+    public var http: NekoHttp
 }
 
 /// Neko Configuration Model

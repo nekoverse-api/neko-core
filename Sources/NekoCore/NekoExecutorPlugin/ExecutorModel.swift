@@ -2,34 +2,34 @@
 // Neko Request
 //
 public struct NekoRequestContext {
-    let version: String
+    var version: String
 }
 
 public struct NekoRequest {
-    let url: String
-    let method: String
+    var url: String
+    var method: String
 
-    let parameters: [String: String]
-    let headers: [String: String]
-    let body: String?
+    var parameters: [String: String]
+    var headers: [String: String]
+    var body: String?
 
-    let context: String?
+    var context: String?
 }
 
 //
 // Neko Response
 //
-struct NekoHttpSize: Codable {
-    let header: Int64
-    let body: Int64
+public struct NekoHttpSize: Codable {
+    public var header: Int64
+    public var body: Int64
 }
 
-struct NekoSize: Codable {
-    let req: NekoHttpSize
-    let res: NekoHttpSize
+public struct NekoSize: Codable {
+    public var req: NekoHttpSize
+    public var res: NekoHttpSize
 }
 
-enum NekoPhase: String, Codable, Hashable {
+public enum NekoPhase: String, Codable, Hashable {
     case Prepare
     case SocketInitialization
     case DnsLookup
@@ -40,20 +40,20 @@ enum NekoPhase: String, Codable, Hashable {
 }
 
 public struct NekoResponseMetadata: Codable {
-    let time: [NekoPhase: Double]?
-    let size: NekoSize?
+    public var time: [NekoPhase: Double]?
+    public var size: NekoSize?
 
-    let extra: [String: String]
+    public var extra: [String: String]
 }
 
 public struct NekoResponse: Codable {
-    let url: String
-    let method: String
+    public var url: String
+    public var method: String
 
-    let parameters: [String: String]
-    let headers: [String: String]
-    let body: String?
+    public var parameters: [String: String]
+    public var headers: [String: String]
+    public var body: String?
 
-    let status: Int
-    let metadata: NekoResponseMetadata
+    public var status: Int
+    public var metadata: NekoResponseMetadata
 }

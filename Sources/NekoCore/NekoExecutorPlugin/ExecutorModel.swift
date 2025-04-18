@@ -40,10 +40,10 @@ public enum NekoPhase: String, Codable, Hashable {
 }
 
 public struct NekoResponseMetadata: Codable {
-    public var time: [NekoPhase: Double]?
+    public var time: [NekoPhase: Duration]?
     public var size: NekoSize?
 
-    public var extra: [String: String]
+    public var extra: [String: String]?
 }
 
 public struct NekoResponse: Codable {
@@ -54,6 +54,6 @@ public struct NekoResponse: Codable {
     public var headers: [String: String]
     public var body: String?
 
-    public var status: Int
+    public var statusCode: Int
     public var metadata: NekoResponseMetadata
 }

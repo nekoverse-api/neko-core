@@ -82,8 +82,9 @@ extension NekoCore {
                 "baseUrl": "https://echo.nekoverse.me",
                 "userId": "123122153234234324",
             ]
-            let request = try NekoMustacheTemplate.replaceRequestVariables(request.http, JSON(vars))
-            // print(try! NekoFileLoader.NekoFile.asYaml(req))
+            let request = try NekoMustacheTemplate.replaceRequestVariables(
+                request.http, JSON(vars))
+            print(try! NekoFileLoader.NekoFile.asYaml(request))
 
             let response = try await AlamofireNekoNetwork.send(request)
             print("SUCCCESS RESPONSE BODY".green)

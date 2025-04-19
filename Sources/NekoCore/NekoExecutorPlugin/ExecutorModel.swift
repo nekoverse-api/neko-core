@@ -1,19 +1,19 @@
 //
 // Neko Request
 //
-public struct NekoRequestContext {
-    var version: String
+public struct NekoRequestContext: Codable {
+    public var pluginProperties: [String: String] = [String: String]()
 }
 
-public struct NekoRequest {
-    var url: String
-    var method: String
+public struct NekoRequest: Codable {
+    public var url: String
+    public var method: String
 
-    var parameters: [String: String]
-    var headers: [String: String]
-    var body: String?
+    public var parameters: [String: String]
+    public var headers: [String: String]
+    public var body: String?
 
-    var context: String?
+    public var context: NekoRequestContext = NekoRequestContext()
 }
 
 //

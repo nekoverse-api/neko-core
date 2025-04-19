@@ -1,4 +1,7 @@
 extension NekoCore {
+    @available(
+        *, deprecated, message: "The new library already has the mechanism to collect metrics"
+    )
     public struct NekoNetworkMeasurement {
         let clock: ContinuousClock = ContinuousClock()
         var time = [NekoPhase: Duration]()

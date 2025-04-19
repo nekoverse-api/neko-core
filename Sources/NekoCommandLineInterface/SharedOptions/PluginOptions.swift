@@ -36,7 +36,7 @@ struct PluginProperty: Codable {
 
 struct PluginOptions: ParsableArguments {
     @Option(name: .shortAndLong, help: "Loader plugin name, Default = GitFriendly.")
-    var loaderPlugin: Loader = .GitFriendly
+    var loaderPlugin: Loader = .File
 
     @Option(help: "Loader plugin properties", transform: PluginProperty.init)
     var loaderProperties: [PluginProperty] = []

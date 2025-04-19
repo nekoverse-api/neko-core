@@ -5,7 +5,7 @@ public struct AlamofireNekoNetwork {
     public static func send(_ req: NekoRequest, _ encoding: String.Encoding = .utf8) async throws
         -> NekoResponse
     {
-        var clock = NekoNetworkMeasurement()
+        var clock = NekoCore.NekoNetworkMeasurement()
         let urlRequest = try NekoCore.buildRequest(req, encoding)
         clock.addCheckpoint(.Prepare)
 

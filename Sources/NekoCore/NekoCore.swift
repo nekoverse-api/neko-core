@@ -8,6 +8,7 @@ import Alamofire
 import Foundation
 import Mustache
 import Rainbow
+import SwiftyJSON
 
 //
 // NekoLoaderPlugin is used to load configuration
@@ -77,15 +78,17 @@ extension NekoCore {
 
             print(a)
 
-            let req = try prepareRequest(request.http)
-            print(try! NekoFileLoader.NekoFile.asYaml(req))
-            // await sendRequest(req)
+            let vars = [
+                "baseUrl": "https://echo.nekoverse.me",
+                "userId": "123122153234234324",
+            ]
+            let request = try NekoMustacheTemplate.replaceRequestVariables(request.http, JSON(vars))
+            // print(try! NekoFileLoader.NekoFile.asYaml(req))
 
-            let response = try await AlamofireNekoNetwork.send(NekoCore.fromNekoHttp(req))
+            let response = try await AlamofireNekoNetwork.send(request)
             print("SUCCCESS RESPONSE BODY".green)
 
             print(try NekoFileLoader.NekoFile.asYaml(response))
-            // print(response)
 
             print("Completed execution".green)
         }
@@ -97,115 +100,5 @@ extension NekoCore {
         // execute
         // folders
         // requests
-
-    }
-
-    public static func sendRequest(_ http: NekoHttp) async {
-        print("Sending request ...".red)
-        guard var url = URL(string: http.url) else { return }
-
-        if let parameters = http.parameters {
-            let queryItems = parameters.map { URLQueryItem(name: $0.key, value: $0.value) }
-            url.append(queryItems: queryItems)
-        }
-
-        var request = URLRequest(url: url)
-        request.httpMethod = http.method
-        request.httpBody = "{}".data(using: .utf8)
-        // request.httpBody = http.body?.data(using: .utf8)
-
-        if let headers = http.headers {
-            headers.forEach { request.setValue($0.value, forHTTPHeaderField: $0.key) }
-        }
-
-        print("Reuqest ready to send".red)
-
-        let (data, response) = try! await URLSession.shared.data(for: request)
-
-        print("REQUEST  ====> ".red)
-        print("headers \(request.allHTTPHeaderFields)")
-        print("length content \(request.httpBody?.count)")
-
-        print("RESPONSE ====> ".red)
-
-        print(response)
-        print("RESPONSE ====> ".green)
-        print(response.debugDescription)
-        print(response.description)
-        print("RESPONSE ====> ".green)
-        print(response.expectedContentLength)
-        print(response.suggestedFilename ?? "NO SUGGESTED NAME")
-        print(response.mimeType ?? "NO MIME TYPE")
-        print(response.textEncodingName ?? "NO ENCODING")
-        print(response.url ?? "NO URL")
-
-        print("RESPONSE ====> ".red)
-        if let httpResponse = response as? HTTPURLResponse {
-            print("statusCode: \(httpResponse.statusCode)")
-            print("Headers \(httpResponse.allHeaderFields)")
-            print("Headers \(httpResponse.expectedContentLength)")
-            print("END ==============> ".red)
-
-        }
-
-        print("BODY ====> ".green)
-        print(String(data: data, encoding: .utf8) ?? "WITHOUT DATA")
-        // print("Response comes".green)
-        // guard let data else { return }
-        // guard let body = String(data: data, encoding: .utf8) else { return }
-        // print("BODY ========== ")
-        // print(body)
-        // }
-        // task.resume()
-    }
-
-    public static func prepareRequest(_ http: NekoHttp) throws -> NekoHttp {
-        do {
-            let data: [String: String] = [
-                "baseUrl": "https://echo.nekoverse.me",
-                "userId": "123122153234234324",
-            ]
-
-            return NekoHttp(
-                url: updateVariables(http.url, data),
-                method: updateVariables(http.method, data),
-                body: updateVariables(http.body, data),
-                parameters: updateDictionaryVariables(http.parameters, data),
-                headers: updateDictionaryVariables(http.headers, data)
-            )
-        } catch {
-            throw error
-        }
-    }
-
-    public static func updateDictionaryVariables(
-        _ values: [String: String]?, _ data: [String: String]
-    )
-        -> [String: String]
-    {
-        guard let values else { return [String: String]() }
-        var resp: [String: String] = [:]
-        for (key, value) in values {
-            let newKey = updateVariables(key, data)
-            let newValue = updateVariables(value, data)
-            resp.updateValue(newValue, forKey: newKey)
-        }
-
-        return resp
-    }
-
-    // Update variables best try
-    public static func updateVariables(_ string: String?, _ data: [String: String]) -> String {
-        guard let string else { return "" }
-        let template = try? Template(string: string)
-        let value = try? template?.render(data)
-
-        return value ?? ""
-    }
-
-    public static func executeFolder(_ folder: NekoFolderConfig) {
-    }
-
-    public static func executeRequest(_ request: NekoRequestConfig) {
     }
 }

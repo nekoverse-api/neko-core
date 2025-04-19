@@ -56,4 +56,92 @@ struct NekoMustacheTemplateTests {
         let value = Template.replaceVariables(template, JSON(vars))
         #expect("https://-/envs/missing__value/".isEqual(value))
     }
+
+    @Test
+    func testReplaceDictionaryVariables() async throws {
+        let vars = [String: String]()
+        let headers = [String: String]()
+        let values = Template.replaceDictionaryVariables(headers, JSON(vars))
+
+        #expect(values.count == 0)
+        #expect(headers.count == values.count)
+
+    }
+
+    @Test
+    func testReplaceDictionaryVariablesWithValues() async throws {
+        let vars = ["customType": "json"]
+        let headers = ["Content-Type": "applicaiton/{{customType}}"]
+        let values = Template.replaceDictionaryVariables(headers, JSON(vars))
+
+        #expect(values.count == 1)
+        #expect(headers.count == values.count)
+        #expect("applicaiton/json".isEqual(values["Content-Type"]))
+    }
+
+    @Test
+    func testReplaceDictionaryVariablesWithKey() async throws {
+        let vars = ["customHeader": "Neko"]
+        let headers = ["x-{{customHeader}}-Custom-Type": "Active"]
+        let values = Template.replaceDictionaryVariables(headers, JSON(vars))
+
+        #expect(values.count == 1)
+        #expect(headers.count == values.count)
+        #expect(values.contains { $0.key.isEqual("x-Neko-Custom-Type") })
+        #expect("Active".isEqual(values["x-Neko-Custom-Type"]))
+    }
+
+    @Test
+    func testReplaceDictionaryVariablesWithKeyAndValues() async throws {
+        let vars = [
+            "customHeader": "Neko",
+            "customType": "json",
+        ]
+        let headers = [
+            "x-{{customHeader}}-Custom-Type": "Active",
+            "Content-Type": "applicaiton/{{customType}}",
+        ]
+        let values = Template.replaceDictionaryVariables(headers, JSON(vars))
+
+        #expect(values.count == 2)
+        #expect(headers.count == values.count)
+
+        #expect("applicaiton/json".isEqual(values["Content-Type"]))
+
+        #expect(values.contains { $0.key.isEqual("x-Neko-Custom-Type") })
+        #expect("Active".isEqual(values["x-Neko-Custom-Type"]))
+    }
+
+    @Test
+    func testReplaceDictionaryVariablesWithEmptyKeyShouldBeRemoved() async throws {
+        let vars = ["customHeader": ""]
+        let headers = [
+            "{{customHeader}": "Active",
+            "": "Enabled",
+            "  ": "Test",
+            "\n": "TEST",
+        ]
+        let values = Template.replaceDictionaryVariables(headers, JSON(vars))
+
+        #expect(values.count == 0)
+        #expect(headers.count != values.count)
+    }
+
+    @Test
+    func testReplaceDictionaryVariablesWithEmptyKeyShouldBeRemovedAndKeepOther() async throws {
+        let vars = ["customHeader": ""]
+        let headers = [
+            "{{customHeader}": "Active",
+            "": "Enabled",
+            "  ": "Test",
+            "\n": "TEST",
+            "Content-Type": "applicaiton/json",
+        ]
+        let values = Template.replaceDictionaryVariables(headers, JSON(vars))
+
+        #expect(values.count == 1)
+        #expect(headers.count != values.count)
+
+        #expect("applicaiton/json".isEqual(values["Content-Type"]))
+    }
 }

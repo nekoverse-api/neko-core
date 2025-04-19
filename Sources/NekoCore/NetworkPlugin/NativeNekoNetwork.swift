@@ -27,13 +27,12 @@ extension NekoCore {
             clock.addCheckpoint(.Process)
 
             let size = NekoSize(
-                req: NekoHttpSize(header: 0, body: Int64(urlRequest.httpBody?.count ?? 0)),
-                res: NekoHttpSize(header: 0, body: Int64(data.count))
+                sent: NekoHttpSize(header: 0, body: Int64(urlRequest.httpBody?.count ?? 0)),
+                received: NekoHttpSize(header: 0, body: Int64(data.count))
             )
             let metadata = NekoResponseMetadata(
                 time: clock.getTimeMeasurement(),
-                size: size,
-                extra: [String: String]()
+                size: size
             )
             return NekoResponse(
                 url: req.url,

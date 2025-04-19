@@ -20,13 +20,13 @@ public struct NekoRequest {
 // Neko Response
 //
 public struct NekoHttpSize: Codable {
-    public var header: Int64
-    public var body: Int64
+    public var header: Int64  // In Bytes
+    public var body: Int64  // In Bytes
 }
 
 public struct NekoSize: Codable {
-    public var req: NekoHttpSize
-    public var res: NekoHttpSize
+    public var sent: NekoHttpSize
+    public var received: NekoHttpSize
 }
 
 public enum NekoPhase: String, Codable, Hashable {
@@ -39,11 +39,27 @@ public enum NekoPhase: String, Codable, Hashable {
     case Process
 }
 
+public struct NekoResponseMetadataNetworkServer: Codable {
+    public var address: String
+    public var port: Int
+}
+
+public struct NekoResponseMetadataNetwork: Codable {
+    public var httpVersion: String
+    public var domainResolutionProtocol: String
+
+    public var tlsProtocolVersion: String
+    public var tlsCipherSuite: String
+
+    public var local: NekoResponseMetadataNetworkServer
+    public var remote: NekoResponseMetadataNetworkServer
+}
+
 public struct NekoResponseMetadata: Codable {
     public var time: [NekoPhase: Duration]?
-    public var size: NekoSize?
 
-    public var extra: [String: String]?
+    public var size: NekoSize?
+    public var network: NekoResponseMetadataNetwork?
 }
 
 public struct NekoResponse: Codable {

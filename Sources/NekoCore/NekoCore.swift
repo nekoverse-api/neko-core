@@ -80,7 +80,8 @@ extension NekoCore {
             // await sendRequest(req)
 
             let response = try await AlamofireNekoNetwork.send(NekoCore.fromNekoHttp(req))
-            print(response)
+            print(try NekoFileLoader.NekoFile.asYaml(response))
+            // print(response)
 
             print("Completed execution".green)
         }
@@ -157,7 +158,7 @@ extension NekoCore {
     public static func prepareRequest(_ http: NekoHttp) throws -> NekoHttp {
         do {
             let data: [String: String] = [
-                "baseUrl": "http://echo.nekoverse.me",
+                "baseUrl": "https://echo.nekoverse.me",
                 "userId": "123122153234234324",
             ]
 

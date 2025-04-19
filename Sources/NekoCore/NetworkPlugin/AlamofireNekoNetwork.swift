@@ -7,17 +7,17 @@ extension NekoCore {
             async throws
             -> NekoResponse
         {
-            var clock = NekoCore.NekoNetworkMeasurement()
             let urlRequest = try NekoCore.buildRequest(req, encoding)
-            clock.addCheckpoint(.Prepare)
-
             let res = await withCheckedContinuation { continuation in
-                AF.request(urlRequest).redirect(using: .follow).responseData { apiRequest in
+                NekoNetworkSession.session.request(urlRequest).redirect(using: .follow).responseData
+                { apiRequest in
                     continuation.resume(returning: apiRequest)
                 }
             }
 
-            clock.addCheckpoint(.Download)
+            print("=========================== METRICS ===========================".red)
+            print(res.metrics)
+            print("=========================== END ===========================".blue)
 
             var responseHeaders = [String: String]()
             if let httpResponse = res.response {
@@ -32,8 +32,6 @@ extension NekoCore {
             if let data = res.data {
                 body = String(data: data, encoding: encoding)
             }
-
-            clock.addCheckpoint(.Process)
 
             return NekoResponse(
                 url: req.url,

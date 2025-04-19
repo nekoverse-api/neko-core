@@ -22,7 +22,7 @@ extension NekoCore {
             throw NekoNetworkError.UnableToParseURL
         }
 
-        var request = URLRequest(url: url)
+        var request = URLRequest(url: url, cachePolicy: .reloadIgnoringCacheData)
         request.httpMethod = http.method
 
         let queryItems = http.parameters.map { URLQueryItem(name: $0.key, value: $0.value) }

@@ -80,6 +80,8 @@ extension NekoCore {
             // await sendRequest(req)
 
             let response = try await AlamofireNekoNetwork.send(NekoCore.fromNekoHttp(req))
+            print("SUCCCESS RESPONSE BODY".green)
+
             print(try NekoFileLoader.NekoFile.asYaml(response))
             // print(response)
 

@@ -13,4 +13,8 @@ struct cli {
         let icon = "[失敗]"
         print("\(icon) \(string)".red)
     }
+
+    static func title(_ string: String) {
+        print("\(string)".blue)
+    }
 }

@@ -23,7 +23,7 @@ struct RunNekoCommand: AsyncParsableCommand {
 
     func run() async throws {
         do {
-            print("Starting Neko Execution".blue)
+            cli.title("Starting Neko Collection Execution")
             let params = buildExecutionParams(path: path, plugin: plugin, general: general)
             try await NekoCore.runNekoCollection(params)
             cli.success("Completed successfully")

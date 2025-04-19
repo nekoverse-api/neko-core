@@ -35,4 +35,13 @@ extension NekoCore {
         }
         return request
     }
+
+    public struct Shared {
+        public static func durationBetweenDates(_ start: Date?, _ end: Date?) -> Duration {
+            guard let start else { return .microseconds(0) }
+            guard let end else { return .microseconds(0) }
+
+            return .seconds(start.distance(to: end))
+        }
+    }
 }

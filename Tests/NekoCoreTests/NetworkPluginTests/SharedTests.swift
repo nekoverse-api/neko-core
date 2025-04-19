@@ -1,3 +1,4 @@
+import Foundation
 import Testing
 
 @testable import NekoCore
@@ -56,4 +57,23 @@ struct SharedTests {
         #expect("TEST BODY".isEqual(String(data: urlRequest.httpBody!, encoding: .utf8)))
     }
 
+    @Test
+    func testDurationBetweenDates() async throws {
+        let start = Date()
+        let end = start + 1
+
+        let duration = NekoCore.Shared.durationBetweenDates(start, end)
+        #expect(duration.components.seconds >= 1)
+        #expect(duration.components.attoseconds == 0)
+    }
+
+    @Test
+    func testDurationBetweenDatesEdgeCases() async throws {
+        let start = Date()
+        let end = start + 1
+
+        #expect(NekoCore.Shared.durationBetweenDates(nil, nil) == Duration.seconds(0))
+        #expect(NekoCore.Shared.durationBetweenDates(start, nil) == Duration.seconds(0))
+        #expect(NekoCore.Shared.durationBetweenDates(nil, end) == Duration.seconds(0))
+    }
 }

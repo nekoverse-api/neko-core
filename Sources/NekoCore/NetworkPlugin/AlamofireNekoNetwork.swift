@@ -84,7 +84,7 @@ extension NekoCore {
             var tslCipherSuite = ""
 
             let httpVersion = metric.networkProtocolName ?? ""
-            let domainResolutionProtocol = getDomainResolutionProtocolName(
+            let domainResolutionProtocol = Shared.getDomainResolutionProtocolName(
                 metric.domainResolutionProtocol)
 
             let local = NekoResponseMetadataNetworkServer(
@@ -95,11 +95,11 @@ extension NekoCore {
             )
 
             if let protocolVersion = metric.negotiatedTLSProtocolVersion {
-                tlsProtocolVersion = getProtocolVersionName(protocolVersion)
+                tlsProtocolVersion = Shared.getProtocolVersionName(protocolVersion)
             }
 
             if let cipherSuite: tls_ciphersuite_t = metric.negotiatedTLSCipherSuite {
-                tslCipherSuite = getCipherSuiteName(cipherSuite)
+                tslCipherSuite = Shared.getCipherSuiteName(cipherSuite)
             }
 
             return NekoResponseMetadata(
@@ -116,61 +116,5 @@ extension NekoCore {
             )
         }
 
-        public static func getProtocolVersionName(_ version: tls_protocol_version_t) -> String {
-            return switch version {
-            case .TLSv10: "TLSv10"
-            case .TLSv11: "TLSv11"
-            case .TLSv12: "TLSv12"
-            case .TLSv13: "TLSv13"
-            case .DTLSv10: "DTLSv10"
-            case .DTLSv12: "DTLSv12"
-            default: "UNKNOWN"
-            }
-        }
-
-        public static func getCipherSuiteName(_ ciphersuite: tls_ciphersuite_t) -> String {
-            return switch ciphersuite {
-            case .RSA_WITH_3DES_EDE_CBC_SHA: "RSA_WITH_3DES_EDE_CBC_SHA"
-            case .RSA_WITH_AES_128_CBC_SHA: "RSA_WITH_AES_128_CBC_SHA"
-            case .RSA_WITH_AES_256_CBC_SHA: "RSA_WITH_AES_256_CBC_SHA"
-            case .RSA_WITH_AES_128_GCM_SHA256: "RSA_WITH_AES_128_GCM_SHA256"
-            case .RSA_WITH_AES_256_GCM_SHA384: "RSA_WITH_AES_256_GCM_SHA384"
-            case .RSA_WITH_AES_128_CBC_SHA256: "RSA_WITH_AES_128_CBC_SHA256"
-            case .RSA_WITH_AES_256_CBC_SHA256: "RSA_WITH_AES_256_CBC_SHA256"
-            case .ECDHE_ECDSA_WITH_3DES_EDE_CBC_SHA: "ECDHE_ECDSA_WITH_3DES_EDE_CBC_SHA"
-            case .ECDHE_ECDSA_WITH_AES_128_CBC_SHA: "ECDHE_ECDSA_WITH_AES_128_CBC_SHA"
-            case .ECDHE_ECDSA_WITH_AES_256_CBC_SHA: "ECDHE_ECDSA_WITH_AES_256_CBC_SHA"
-            case .ECDHE_RSA_WITH_3DES_EDE_CBC_SHA: "ECDHE_RSA_WITH_3DES_EDE_CBC_SHA"
-            case .ECDHE_RSA_WITH_AES_128_CBC_SHA: "ECDHE_RSA_WITH_AES_128_CBC_SHA"
-            case .ECDHE_RSA_WITH_AES_256_CBC_SHA: "ECDHE_RSA_WITH_AES_256_CBC_SHA"
-            case .ECDHE_ECDSA_WITH_AES_128_CBC_SHA256: "ECDHE_ECDSA_WITH_AES_128_CBC_SHA256"
-            case .ECDHE_ECDSA_WITH_AES_256_CBC_SHA384: "ECDHE_ECDSA_WITH_AES_256_CBC_SHA384"
-            case .ECDHE_RSA_WITH_AES_128_CBC_SHA256: "ECDHE_RSA_WITH_AES_128_CBC_SHA256"
-            case .ECDHE_RSA_WITH_AES_256_CBC_SHA384: "ECDHE_RSA_WITH_AES_256_CBC_SHA384"
-            case .ECDHE_ECDSA_WITH_AES_128_GCM_SHA256: "ECDHE_ECDSA_WITH_AES_128_GCM_SHA256"
-            case .ECDHE_ECDSA_WITH_AES_256_GCM_SHA384: "ECDHE_ECDSA_WITH_AES_256_GCM_SHA384"
-            case .ECDHE_RSA_WITH_AES_128_GCM_SHA256: "ECDHE_RSA_WITH_AES_128_GCM_SHA256"
-            case .ECDHE_RSA_WITH_AES_256_GCM_SHA384: "ECDHE_RSA_WITH_AES_256_GCM_SHA384"
-            case .ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256: "ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256"
-            case .ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256:
-                "ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256"
-            case .AES_128_GCM_SHA256: "AES_128_GCM_SHA256"
-            case .AES_256_GCM_SHA384: "AES_256_GCM_SHA384"
-            default: "UNKNOWN"
-            }
-        }
-
-        public static func getDomainResolutionProtocolName(
-            _ domainResolutionProtocol: URLSessionTaskMetrics.DomainResolutionProtocol
-        ) -> String {
-            return switch domainResolutionProtocol {
-            case .unknown: "UNKNOWN"
-            case .udp: "UDP"
-            case .tcp: "TCP"
-            case .tls: "TLS"
-            case .https: "HTTPS"
-            default: "UNKNOWN"
-            }
-        }
     }
 }

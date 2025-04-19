@@ -28,7 +28,11 @@ extension NekoCore {
                 }
             }
 
-            let body = res.data == nil ? nil : String(data: res.data!, encoding: encoding)
+            var body: String? = nil
+            if let data = res.data {
+                body = String(data: data, encoding: encoding)
+            }
+
             clock.addCheckpoint(.Process)
 
             return NekoResponse(

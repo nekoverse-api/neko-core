@@ -25,6 +25,8 @@ public protocol NekoExecutorPlugin {
 
 public struct NekoCore {
     public static let version = "0.0.1"
+
+    public init() {}
 }
 
 extension NekoCore {

@@ -15,14 +15,17 @@ struct RunNekoCommand: AsyncParsableCommand {
     @OptionGroup
     var general: GeneralOptions
 
-    @Argument
+    @Flag(help: "Execute all without performing the requests (for debugging).")
+    var dirtyRun: Bool = false
+
+    @Argument(help: "Neko colleciton file.")
     var path: String
 
     func run() async throws {
         do {
             print("Starting execution".blue)
             let params = buildExecutionParams(path: path, plugin: plugin, general: general)
-            try await NekoCore.execute(params)
+            try await NekoCore.runNekoCollection(params)
             print("Completed successfully".green)
         } catch {
             throw error

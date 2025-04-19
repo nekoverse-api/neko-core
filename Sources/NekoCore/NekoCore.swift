@@ -55,7 +55,7 @@ extension NekoCore {
         }
     }
 
-    public static func execute(_ params: ExecuteParams) async throws {
+    public static func runNekoCollection(_ params: ExecuteParams) async throws {
         print("NekoCore Execute".green)
 
         let loader = NekoCore.Factory.getLoader(params.loader)
@@ -82,11 +82,12 @@ extension NekoCore {
                 "baseUrl": "https://echo.nekoverse.me",
                 "userId": "123122153234234324",
             ]
+
             let request = try NekoMustacheTemplate.replaceRequestVariables(
                 request.http, JSON(vars))
             print(try! NekoFileLoader.NekoFile.asYaml(request))
 
-            let response = try await AlamofireNekoNetwork.send(request)
+            let response = try await executor.execute(request)
             print("SUCCCESS RESPONSE BODY".green)
 
             print(try NekoFileLoader.NekoFile.asYaml(response))

@@ -18,6 +18,16 @@ public struct AlamofireNekoNetwork {
 
         let body = res.data == nil ? nil : String(data: res.data!, encoding: encoding)
         clock.addCheckpoint(.Process)
+
+        let size = NekoSize(
+            req: NekoHttpSize(header: 0, body: Int64(urlRequest.httpBody?.count ?? 0)),
+            res: NekoHttpSize(header: 0, body: Int64(res.data?.count ?? 0))
+        )
+        let metadata = NekoResponseMetadata(
+            time: clock.getTimeMeasurement(),
+            size: size,
+            extra: [String: String]()
+        )
         return NekoResponse(
             url: req.url,
             method: req.method,
@@ -25,7 +35,7 @@ public struct AlamofireNekoNetwork {
             headers: [String: String](),
             body: body,
             statusCode: res.response?.statusCode ?? 0,
-            metadata: NekoResponseMetadata()
+            metadata: metadata
         )
     }
 }

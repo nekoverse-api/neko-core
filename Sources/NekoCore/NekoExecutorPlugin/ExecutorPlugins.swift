@@ -1,14 +1,12 @@
 public class NativeExecutorPlugin: NekoExecutorPlugin {
     public func execute(_ request: NekoRequest) async throws -> NekoResponse {
-        print("Gary Ascuy")
-        throw NekoError.NotImplementedYet
+        return try await NekoCore.AlamofireNekoNetwork.send(request)
     }
 }
 
-// TODO: Execute using gRPC
+// TODO: Not Implemented Yet - Execute using gRPC proxy
 public class GRPCExecutorPlugin: NekoExecutorPlugin {
     public func execute(_ request: NekoRequest) async throws -> NekoResponse {
-        print("Gary Ascuy")
         throw NekoError.NotImplementedYet
     }
 }

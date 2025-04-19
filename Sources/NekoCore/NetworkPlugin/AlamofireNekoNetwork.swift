@@ -18,6 +18,15 @@ extension NekoCore {
             }
             clock.addCheckpoint(.Download)
 
+            var responseHeaders = [String: String]()
+            if let httpResponse = res.response {
+                for (key, value) in httpResponse.allHeaderFields {
+                    guard let key = key as? String else { continue }
+                    guard let value = value as? String else { continue }
+                    responseHeaders[key] = value
+                }
+            }
+
             let body = res.data == nil ? nil : String(data: res.data!, encoding: encoding)
             clock.addCheckpoint(.Process)
 
@@ -34,7 +43,7 @@ extension NekoCore {
                 url: req.url,
                 method: req.method,
                 parameters: req.parameters,
-                headers: [String: String](),
+                headers: responseHeaders,
                 body: body,
                 statusCode: res.response?.statusCode ?? 0,
                 metadata: metadata

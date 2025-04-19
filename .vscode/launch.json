@@ -3,9 +3,12 @@
         {
             "type": "lldb",
             "request": "launch",
-            "args": [],
+            "args": [
+                "run",
+                "/Users/gary/develop/opensource/nekoverse/neko-core/Samples/demo.neko.jsonc"
+            ],
             "cwd": "${workspaceFolder:neko-core}",
-            "name": "Debug neko",
+            "name": "Debug Gary Neko",
             "program": "${workspaceFolder:neko-core}/.build/debug/neko",
             "preLaunchTask": "swift: Build Debug neko"
         },
@@ -14,7 +17,7 @@
             "request": "launch",
             "args": [],
             "cwd": "${workspaceFolder:neko-core}",
-            "name": "Release neko",
+            "name": "Release Gary Neko",
             "program": "${workspaceFolder:neko-core}/.build/release/neko",
             "preLaunchTask": "swift: Build Release neko"
         }

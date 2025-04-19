@@ -3,6 +3,8 @@
 // Author: Gary Ascuy
 // Version: 0.0.1 (neko@v0.0.1)
 //
+
+import Alamofire
 import Foundation
 import Mustache
 import Rainbow
@@ -75,7 +77,10 @@ extension NekoCore {
 
             let req = try prepareRequest(request.http)
             print(try! NekoFileLoader.NekoFile.asYaml(req))
-            await sendRequest(req)
+            // await sendRequest(req)
+
+            let response = try await AlamofireNekoNetwork.send(NekoCore.fromNekoHttp(req))
+            print(response)
 
             print("Completed execution".green)
         }

@@ -54,6 +54,8 @@ public struct NekoHttp: Codable {
 }
 
 public struct NekoTestScripts: Codable {
+    public var useVariables: Bool = true
+
     public var preScript: String?
     public var postScript: String?
 }

@@ -69,8 +69,6 @@ extension NekoCore {
         print(String(data: json!, encoding: .utf8)!)
 
         let executor = NekoCore.Factory.getExecutor(params.executor)
-        // executor.execute(NekoRequest)
-
         for request in config.requests ?? [] {
             print("Request Execution".blue)
 
@@ -83,7 +81,7 @@ extension NekoCore {
                 "userId": "123122153234234324",
             ]
 
-            let request = try NekoMustacheTemplate.replaceRequestVariables(
+            let request = NekoMustacheTemplate.replaceRequestVariables(
                 request.http, JSON(vars))
             print(try! NekoFileLoader.NekoFile.asYaml(request))
 
@@ -91,8 +89,6 @@ extension NekoCore {
             print("SUCCCESS RESPONSE BODY".green)
 
             print(try NekoFileLoader.NekoFile.asYaml(response))
-
-            print("Completed execution".green)
         }
 
         // load

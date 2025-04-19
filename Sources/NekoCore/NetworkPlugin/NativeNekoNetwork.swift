@@ -1,6 +1,7 @@
 import Foundation
 
 extension NekoCore {
+    @available(*, deprecated, message: "It does not have easy way to get metadata")
     public struct NativeNekoNetwork {
         public static func send(_ req: NekoRequest, _ encoding: String.Encoding = .utf8)
             async throws

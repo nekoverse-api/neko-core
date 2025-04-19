@@ -1,9 +1,5 @@
 import Foundation
 
-public enum NekoNetworkError: Error {
-    case UnableToParseURL
-}
-
 extension NekoCore {
     public struct NativeNekoNetwork {
         public static func send(_ req: NekoRequest, _ encoding: String.Encoding = .utf8)

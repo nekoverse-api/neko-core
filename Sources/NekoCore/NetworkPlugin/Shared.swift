@@ -1,6 +1,10 @@
 import Foundation
 
 extension NekoCore {
+    public enum NekoNetworkError: Error {
+        case UnableToParseURL
+    }
+
     public static func fromNekoHttp(_ req: NekoHttp) -> NekoRequest {
         return NekoRequest(
             url: req.url,

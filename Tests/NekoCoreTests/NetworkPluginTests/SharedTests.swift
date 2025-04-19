@@ -94,12 +94,23 @@ struct SharedTests {
         #expect("RSA_WITH_AES_256_CBC_SHA".isEqual(getCipherSuiteName(.RSA_WITH_AES_256_CBC_SHA)))
     }
 
-    @Test func testGetDomainResolutionProtocolName() async throws {
+    @Test
+    func testGetDomainResolutionProtocolName() async throws {
         let getDomainResolutionProtocolName = NekoCore.Shared.getDomainResolutionProtocolName
 
         #expect("UDP".isEqual(getDomainResolutionProtocolName(.udp)))
         #expect("TCP".isEqual(getDomainResolutionProtocolName(.tcp)))
         #expect("HTTPS".isEqual(getDomainResolutionProtocolName(.https)))
         #expect("UNKNOWN".isEqual(getDomainResolutionProtocolName(.unknown)))
+    }
+
+    @Test
+    func testFormatInMiliseconds() async throws {
+        let formatInMiliseconds = NekoCore.Shared.formatInMiliseconds
+
+        #expect("2.00 ms".isEqual(formatInMiliseconds(Duration.milliseconds(2))))
+        #expect("2.19 ms".isEqual(formatInMiliseconds(Duration.milliseconds(2.19))))
+        #expect("2.52 ms".isEqual(formatInMiliseconds(Duration.milliseconds(2.5234545))))
+        #expect("0.12 ms".isEqual(formatInMiliseconds(Duration.milliseconds(0.12))))
     }
 }

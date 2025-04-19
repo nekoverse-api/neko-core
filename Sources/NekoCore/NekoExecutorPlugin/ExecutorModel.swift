@@ -60,6 +60,7 @@ public struct NekoResponseMetadataNetwork: Codable {
 
 public struct NekoResponseMetadata: Codable {
     public var time: [NekoPhase: Duration]?
+    public var timeInMs: [NekoPhase: String]?
 
     public var size: NekoSize?
     public var network: NekoResponseMetadataNetwork?

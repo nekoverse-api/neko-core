@@ -79,6 +79,17 @@ extension NekoCore {
 
             time[.TOTAL] = diff(metric.fetchStartDate, metric.responseEndDate)
 
+            var timeInMs = [NekoPhase: String]()
+            let uS = Shared.formatInMiliseconds
+            timeInMs[.SocketInitialization] = uS(time[.SocketInitialization])
+            timeInMs[.DnsLookup] = uS(time[.DnsLookup])
+            timeInMs[.TCPHandshake] = uS(time[.TCPHandshake])
+            timeInMs[.SSLHandshake] = uS(time[.SSLHandshake])
+            timeInMs[.WaitingTimeToFirstByte] = uS(time[.WaitingTimeToFirstByte])
+            timeInMs[.Download] = uS(time[.Download])
+
+            timeInMs[.TOTAL] = uS(time[.TOTAL])
+
             // Network
             var tlsProtocolVersion = ""
             var tslCipherSuite = ""
@@ -104,6 +115,7 @@ extension NekoCore {
 
             return NekoResponseMetadata(
                 time: time,
+                timeInMs: timeInMs,
                 size: NekoSize(sent: sent, received: received),
                 network: NekoResponseMetadataNetwork(
                     httpVersion: httpVersion,

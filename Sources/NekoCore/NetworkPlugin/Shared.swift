@@ -37,6 +37,16 @@ extension NekoCore {
     }
 
     public struct Shared {
+        static let MS_TWO_FRACTIONAL_PART_FORMAT = Duration.UnitsFormatStyle.units(
+            allowed: [.milliseconds], fractionalPart: .show(length: 2)
+        ).locale(Locale(identifier: "en-US"))
+
+        public static func formatInMiliseconds(_ duration: Duration?) -> String {
+            guard let duration else { return "" }
+
+            return duration.formatted(MS_TWO_FRACTIONAL_PART_FORMAT)
+        }
+
         public static func durationBetweenDates(_ start: Date?, _ end: Date?) -> Duration {
             guard let start else { return .microseconds(0) }
             guard let end else { return .microseconds(0) }

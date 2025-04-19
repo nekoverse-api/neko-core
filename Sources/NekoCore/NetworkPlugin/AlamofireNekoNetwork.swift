@@ -8,8 +8,8 @@ extension NekoCore {
             async throws
             -> NekoResponse
         {
-            // TODO: Review if is better use new session - Session(configuration: NekoNetworkSession.configuration)
-            let session = NekoNetworkSession.session
+            // TODO: Review if is better use new session - NekoNetworkSession.session
+            let session = Session(configuration: NekoNetworkSession.configuration)
 
             let urlRequest = try NekoCore.buildRequest(req, encoding)
             let res = await withCheckedContinuation { continuation in

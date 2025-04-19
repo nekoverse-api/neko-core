@@ -35,21 +35,21 @@ struct PluginProperty: Codable {
 }
 
 struct PluginOptions: ParsableArguments {
-    @Option(name: .shortAndLong, help: "Loader plugin name, Default = GitFriendly.")
+    @Option(name: .shortAndLong, help: "Loader plugin name")
     var loaderPlugin: Loader = .File
 
-    @Option(help: "Loader plugin properties", transform: PluginProperty.init)
+    @Option(help: "Loader plugin properties.", transform: PluginProperty.init)
     var loaderProperties: [PluginProperty] = []
 
-    @Option(name: .shortAndLong, help: "Executor plugin name, Default = Native.")
+    @Option(name: .shortAndLong, help: "Executor plugin name")
     var executorPlugin: Executor = .Native
 
-    @Option(help: "Executor plugin properties", transform: PluginProperty.init)
+    @Option(help: "Executor plugin properties.", transform: PluginProperty.init)
     var executorProperties: [PluginProperty] = []
 
-    @Option(name: .shortAndLong, help: "Tester plugin name, Default = Native.")
+    @Option(name: .shortAndLong, help: "Tester plugin name")
     var testerPlugin: Tester = .Native
 
-    @Option(help: "Tester plugin properties", transform: PluginProperty.init)
+    @Option(help: "Tester plugin properties.", transform: PluginProperty.init)
     var testerProperties: [PluginProperty] = []
 }

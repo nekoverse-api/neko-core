@@ -9,14 +9,14 @@ struct RunNekoCommand: AsyncParsableCommand {
         abstract: "Runs Neko Project."
     )
 
+    @Flag(help: "Execute all without performing the requests (for debugging).")
+    var dirtyRun: Bool = false
+
     @OptionGroup
     var plugin: PluginOptions
 
     @OptionGroup
     var general: GeneralOptions
-
-    @Flag(help: "Execute all without performing the requests (for debugging).")
-    var dirtyRun: Bool = false
 
     @Argument(help: "Neko colleciton file.")
     var path: String

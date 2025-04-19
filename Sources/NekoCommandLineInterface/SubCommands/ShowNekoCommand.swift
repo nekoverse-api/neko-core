@@ -13,14 +13,14 @@ struct ShowNekoCommand: AsyncParsableCommand {
         abstract: "Shows Neko Project Config."
     )
 
+    @Option(name: .shortAndLong, help: "File format to export.")
+    var outputFormat: Format = .yaml
+
     @OptionGroup
     var plugin: PluginOptions
 
     @OptionGroup
     var general: GeneralOptions
-
-    @Option(name: .shortAndLong, help: "File format to export, Default = yaml.")
-    var outputFormat: Format = .yaml
 
     @Argument
     var path: String
@@ -37,7 +37,7 @@ struct ShowNekoCommand: AsyncParsableCommand {
                 }
             print(string)
         } catch {
-            print("Unable to show config from \(path)".red)
+            cli.error("Unable to show config from \(path)")
             throw error
         }
     }

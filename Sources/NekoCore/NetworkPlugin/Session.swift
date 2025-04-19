@@ -2,16 +2,19 @@ import Alamofire
 import Foundation
 
 extension NekoCore {
-    /// Example: `iOS NekoCli/1.0.0 (com.ziogd.neko; build:1; iOS 13.0.0)`
+    /// Example: `macOS NekoCli/1.0.0 (com.ziogd.neko; build:1; macOS 13.0.0)`
     public struct NekoNetworkSession {
-        public static let session = {
+        public static let configuration = {
             let configuration: URLSessionConfiguration = URLSessionConfiguration.af.default
             configuration.headers = [
                 .defaultAcceptEncoding,
                 .defaultAcceptLanguage,
                 NekoCore.NekoNetworkSession.nekoUserAgent,
             ]
+            return configuration
+        }()
 
+        public static let session = {
             return Session(configuration: configuration)
         }()
 

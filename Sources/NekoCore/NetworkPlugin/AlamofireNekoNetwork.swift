@@ -1,4 +1,5 @@
 import Alamofire
+// import AlamofireNetworkActivityLogger
 import Foundation
 
 extension NekoCore {
@@ -7,17 +8,16 @@ extension NekoCore {
             async throws
             -> NekoResponse
         {
+            // TODO: Review if is better use new session - Session(configuration: NekoNetworkSession.configuration)
+            let session = NekoNetworkSession.session
+
             let urlRequest = try NekoCore.buildRequest(req, encoding)
             let res = await withCheckedContinuation { continuation in
-                NekoNetworkSession.session.request(urlRequest).redirect(using: .follow).responseData
-                { apiRequest in
+                session.request(urlRequest).redirect(using: .follow).responseData {
+                    apiRequest in
                     continuation.resume(returning: apiRequest)
                 }
             }
-
-            print("=========================== METRICS ===========================".red)
-            print(res.metrics)
-            print("=========================== END ===========================".blue)
 
             var responseHeaders = [String: String]()
             if let httpResponse = res.response {
@@ -47,51 +47,63 @@ extension NekoCore {
         public static func getMetadataFromMetrics(_ metrics: URLSessionTaskMetrics?)
             -> NekoResponseMetadata
         {
-            var sent = NekoHttpSize(header: 0, body: 0)
-            var received = NekoHttpSize(header: 0, body: 0)
+            guard let metrics else { return NekoResponseMetadata() }
 
-            var local = NekoResponseMetadataNetworkServer(address: "", port: 0)
-            var remote = NekoResponseMetadataNetworkServer(address: "", port: 0)
+            let length = metrics.transactionMetrics.count
+            let metric = length > 0 ? metrics.transactionMetrics[length - 1] : nil
+            guard let metric else {
+                return NekoResponseMetadata()
+            }
 
-            var httpVersion = ""
-            var domainResolutionProtocol = ""
+            // Size
+            let sent = NekoHttpSize(
+                header: metric.countOfRequestHeaderBytesSent,
+                body: metric.countOfRequestBodyBytesSent
+            )
+            let received = NekoHttpSize(
+                header: metric.countOfResponseHeaderBytesReceived,
+                body: metric.countOfResponseBodyBytesReceived
+            )
 
+            // Time
+            var time = [NekoPhase: Duration]()
+            let diff = Shared.durationBetweenDates
+            let secureConnectionEndDate = metric.secureConnectionEndDate
+
+            time[.SocketInitialization] = diff(metric.fetchStartDate, metric.domainLookupStartDate)
+            time[.DnsLookup] = diff(metric.domainLookupStartDate, metric.domainLookupEndDate)
+            time[.TCPHandshake] = diff(metric.connectStartDate, metric.secureConnectionStartDate)
+            time[.SSLHandshake] = diff(metric.secureConnectionStartDate, secureConnectionEndDate)
+            time[.WaitingTimeToFirstByte] = diff(secureConnectionEndDate, metric.responseStartDate)
+            time[.Download] = diff(metric.responseStartDate, metric.responseEndDate)
+
+            time[.TOTAL] = diff(metric.fetchStartDate, metric.responseEndDate)
+
+            // Network
             var tlsProtocolVersion = ""
             var tslCipherSuite = ""
 
-            if let metrics {
-                let length = metrics.transactionMetrics.count
-                let metric = metrics.transactionMetrics[length - 1]
+            let httpVersion = metric.networkProtocolName ?? ""
+            let domainResolutionProtocol = getDomainResolutionProtocolName(
+                metric.domainResolutionProtocol)
 
-                // Size
-                sent.header = metric.countOfRequestHeaderBytesSent
-                sent.body = metric.countOfRequestBodyBytesSent
+            let local = NekoResponseMetadataNetworkServer(
+                address: metric.localAddress ?? "", port: metric.localPort ?? 0
+            )
+            let remote = NekoResponseMetadataNetworkServer(
+                address: metric.remoteAddress ?? "", port: metric.remotePort ?? 0
+            )
 
-                received.header = metric.countOfResponseHeaderBytesReceived
-                received.body = metric.countOfResponseBodyBytesReceived
+            if let protocolVersion = metric.negotiatedTLSProtocolVersion {
+                tlsProtocolVersion = getProtocolVersionName(protocolVersion)
+            }
 
-                // Network
-                httpVersion = metric.networkProtocolName ?? ""
-                domainResolutionProtocol = getDomainResolutionProtocolName(
-                    metric.domainResolutionProtocol)
-
-                local.address = metric.localAddress ?? ""
-                local.port = metric.localPort ?? 0
-
-                remote.address = metric.remoteAddress ?? ""
-                remote.port = metric.remotePort ?? 0
-
-                if let protocolVersion = metric.negotiatedTLSProtocolVersion {
-                    tlsProtocolVersion = getProtocolVersionName(protocolVersion)
-                }
-
-                if let cipherSuite: tls_ciphersuite_t = metric.negotiatedTLSCipherSuite {
-                    tslCipherSuite = getCipherSuiteName(cipherSuite)
-                }
+            if let cipherSuite: tls_ciphersuite_t = metric.negotiatedTLSCipherSuite {
+                tslCipherSuite = getCipherSuiteName(cipherSuite)
             }
 
             return NekoResponseMetadata(
-                time: [NekoPhase: Duration](),
+                time: time,
                 size: NekoSize(sent: sent, received: received),
                 network: NekoResponseMetadataNetwork(
                     httpVersion: httpVersion,

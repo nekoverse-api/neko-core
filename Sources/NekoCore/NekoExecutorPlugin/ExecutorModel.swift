@@ -34,9 +34,12 @@ public enum NekoPhase: String, Codable, Hashable {
     case SocketInitialization
     case DnsLookup
     case TCPHandshake
+    case SSLHandshake
     case WaitingTimeToFirstByte
     case Download
     case Process
+
+    case TOTAL
 }
 
 public struct NekoResponseMetadataNetworkServer: Codable {

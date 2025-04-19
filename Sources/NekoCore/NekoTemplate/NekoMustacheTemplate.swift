@@ -4,11 +4,17 @@ import SwiftyJSON
 
 extension NekoCore {
     public struct NekoMustacheTemplate {
+        public static func getConfiguration() -> Configuration {
+            var configuration = Configuration()
+            configuration.contentType = .text
+            return configuration
+        }
+
         public static func replaceVariables(_ string: String?, _ vars: JSON)
             -> String
         {
             guard let string else { return "" }
-            let template = try? Template(string: string)
+            let template = try? Template(string: string, configuration: getConfiguration())
             let value = try? template?.render(vars.dictionaryObject)
 
             return value ?? ""

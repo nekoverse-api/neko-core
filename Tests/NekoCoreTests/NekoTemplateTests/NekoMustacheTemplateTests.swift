@@ -24,6 +24,14 @@ struct NekoMustacheTemplateTests {
     }
 
     @Test
+    func testReplaceVariablesWithHtmlEntitiesInValue() async throws {
+        let vars = ["property": "&test@ <> § €¥£¢'©®™"]
+        let value = Template.replaceVariables("property: {{property}}", JSON(vars))
+
+        #expect("property: &test@ <> § €¥£¢'©®™".isEqual(value))
+    }
+
+    @Test
     func testReplaceVariablesWithNestedVariable() async throws {
         let vars: [String: Any] = ["host": "echo.necoverse.me", "user": ["sid": "456"]]
         let value = Template.replaceVariables("https://{{host}}/test?user={{user.sid}}", JSON(vars))
@@ -191,7 +199,7 @@ struct NekoMustacheTemplateTests {
         print(body)
         #expect("TestName-Gary Ascuy".isEqual(body["userName"].stringValue))
         #expect(
-            "TestBio-Software Developer, Robotic &amp; Cat Lover, and Chef Amateur".isEqual(
+            "TestBio-Software Developer, Robotic & Cat Lover, and Chef Amateur".isEqual(
                 body["userBio"].stringValue))
 
         #expect(request.parameters.count == 1)

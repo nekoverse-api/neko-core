@@ -31,5 +31,15 @@ extension NekoCore {
 
             return resp
         }
+
+        public static func replaceRequestVariables(_ http: NekoHttp, _ vars: JSON) -> NekoRequest {
+            return NekoRequest(
+                url: replaceVariables(http.url, vars),
+                method: replaceVariables(http.method, vars),
+                parameters: replaceDictionaryVariables(http.parameters, vars),
+                headers: replaceDictionaryVariables(http.headers, vars),
+                body: replaceVariables(http.body, vars)
+            )
+        }
     }
 }

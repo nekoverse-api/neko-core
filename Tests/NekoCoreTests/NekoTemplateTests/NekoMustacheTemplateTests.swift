@@ -144,4 +144,63 @@ struct NekoMustacheTemplateTests {
 
         #expect("applicaiton/json".isEqual(values["Content-Type"]))
     }
+
+    @Test
+    func testReplaceRequestVariables() async throws {
+        let vars: [String: Any] = [
+            "url": "https://echo.nekoverse.me",
+            "method": "POST",
+            "user": [
+                "id": "1234",
+                "name": "Gary Ascuy",
+                "bio": "Software Developer, Robotic & Cat Lover, and Chef Amateur",
+            ],
+            "secrets": [
+                "token": "S0m3-P4$$W0rD"
+            ],
+        ]
+
+        let http = NekoHttp(
+            url: "{{url}}/users/{{user.id}}",
+            method: "{{method}}",
+            body:
+                """
+                {
+                    "userName": "TestName-{{user.name}}",
+                    "userBio": "TestBio-{{user.bio}}"
+                }
+                """,
+            parameters: [
+                "owner": "owner_{{user.id}}"
+            ],
+            headers: [
+                "Authorization": "Basic {{secrets.token}}",
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "x-User-Id": "{{user.id}}",
+            ]
+        )
+
+        let request = Template.replaceRequestVariables(http, JSON(vars))
+
+        #expect("https://echo.nekoverse.me/users/1234".isEqual(request.url))
+        #expect("POST".isEqual(request.method))
+
+        #expect(request.body != nil)
+        let body = JSON(parseJSON: request.body!)
+        print(body)
+        #expect("TestName-Gary Ascuy".isEqual(body["userName"].stringValue))
+        #expect(
+            "TestBio-Software Developer, Robotic &amp; Cat Lover, and Chef Amateur".isEqual(
+                body["userBio"].stringValue))
+
+        #expect(request.parameters.count == 1)
+        #expect("owner_1234".isEqual(request.parameters["owner"]))
+
+        #expect(request.headers.count == 4)
+        #expect("Basic S0m3-P4$$W0rD".isEqual(request.headers["Authorization"]))
+        #expect("application/json".isEqual(request.headers["Content-Type"]))
+        #expect("application/json".isEqual(request.headers["Accept"]))
+        #expect("1234".isEqual(request.headers["x-User-Id"]))
+    }
 }

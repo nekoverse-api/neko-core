@@ -53,12 +53,18 @@ public struct NekoHttp: Codable {
     public var headers: [String: String]?
 }
 
+public struct NekoTestScripts: Codable {
+    public var preScript: String?
+    public var postScript: String?
+}
+
 public struct NekoRequestConfig: Codable {
     public var meta: NekoRequestMetadata?
     public var envs: NekoEnvironment?
     public var data: NekoData?
 
     public var http: NekoHttp
+    public var scripts: NekoTestScripts = NekoTestScripts()
 }
 
 /// Neko Configuration Model

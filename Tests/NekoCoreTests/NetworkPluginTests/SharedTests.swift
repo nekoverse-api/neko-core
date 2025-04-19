@@ -43,8 +43,7 @@ struct SharedTests {
             method: "GET",
             parameters: ["query": "gary"],
             headers: ["Content-Type": "application/json", "Accept": "application/json"],
-            body: "TEST BODY",
-            context: ""
+            body: "TEST BODY"
         )
 
         let urlRequest = try NekoCore.buildRequest(req)

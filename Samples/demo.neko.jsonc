@@ -68,7 +68,7 @@
                         },
                         "headers": {
                             "Content-Type": "application/json",
-                            "Accept": "applicaiton/json"
+                            "Accept": "application/json"
                         }
                     }
                 }

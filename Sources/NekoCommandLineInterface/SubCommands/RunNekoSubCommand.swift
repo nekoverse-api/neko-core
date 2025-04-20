@@ -2,6 +2,7 @@ import ArgumentParser
 import Logging
 import NekoCore
 import Rainbow
+import SwiftyJSON
 
 struct RunNekoCommand: AsyncParsableCommand, NekoCore.NekoRunLifeCycle {
     static let configuration = CommandConfiguration(
@@ -42,26 +43,36 @@ struct RunNekoCommand: AsyncParsableCommand, NekoCore.NekoRunLifeCycle {
 
     public func onRequestCompleted(_ response: NekoResponse) {
         print("")
-        // cli.title("REQUEST COMPLETED")
+        print("")
+
         switch response.status {
         case .success:
-            cli.success("SUCCESS")
+            print("SUCCESS RESPONSE".blue)
         case .failure(let error):
-            cli.error("Error: \(error)")
+            cli.error("ERROR: \(error)")
         }
 
+        print("")
         print(
             "StatusCode: (\( response.statusCode)) / Time: (\(response.metadata.timeInMs?[.TOTAL] ?? "0 ms"))"
                 .green
         )
 
-        if let time = response.metadata.timeInMs {
-            print("SocketInitialization:\t\(time[.SocketInitialization] ?? "0 ms")")
-            print("DnsLookup:\t\t\(time[.DnsLookup] ?? "0 ms")")
-            print("TCPHandshake:\t\t\(time[.TCPHandshake] ?? "0 ms")")
-            print("SSLHandshake:\t\t\(time[.SSLHandshake] ?? "0 ms")")
-            print("WaitingTTFB:\t\t\(time[.WaitingTimeToFirstByte] ?? "0 ms")")
-            print("Download:\t\t\(time[.Download] ?? "0 ms")")
+        if let time = response.metadata.time {
+            cli.showTime(time)
+        }
+
+        print("")
+        print("Body:".green)
+
+        if let body = response.body {
+            do {
+                let json = JSON(parseJSON: body)
+                let yaml = try NekoFileLoader.NekoFile.asYaml(json)
+                print(yaml)
+            } catch {
+                print(body)
+            }
         }
     }
 

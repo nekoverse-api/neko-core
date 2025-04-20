@@ -25,7 +25,7 @@ Neko is a Faster, Git-Friendly, Flexible, Extensible and Highly Plugineable API 
         - [ ] (NiceToHave) Validate Neko Config Files
     - [x] Add `run` subcommand `neko run ./SampleCollection.neko.jsonc`
         - [x] Add metadata for options 
-        - [x] Implement subcommand to show the config in different formats
+        - [x] Implement subcommand to run a collection
     - [ ] General Improvements
         - [ ] Improve logs 
         - [ ] Add support for verbose mode 

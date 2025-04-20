@@ -196,7 +196,6 @@ struct NekoMustacheTemplateTests {
 
         #expect(request.body != nil)
         let body = JSON(parseJSON: request.body!)
-        print(body)
         #expect("TestName-Gary Ascuy".isEqual(body["userName"].stringValue))
         #expect(
             "TestBio-Software Developer, Robotic & Cat Lover, and Chef Amateur".isEqual(

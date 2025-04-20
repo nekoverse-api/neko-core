@@ -44,14 +44,16 @@ class NekoFileJsonLoaderSuite {
 
 @Suite
 class NekoFileYamlLoaderSuite {
-    @Test func testLoadYamlConfig() throws {
+    @Test
+    func testLoadYamlConfig() throws {
         let path = "./Tests/Data/Loader/Yaml/TestConfig.yml"
         let config = try NekoFileLoader.NekoFile.loadYaml(TestConfig.self, path)
 
         #expect("Gary Ascuy".isEqual(config.name))
     }
 
-    @Test func testLoadNestedYamlConfig() throws {
+    @Test
+    func testLoadNestedYamlConfig() throws {
         let path = "./Tests/Data/Loader/Yaml/TestNestedConfig.yml"
         let config = try NekoFileLoader.NekoFile.loadYaml(TestNestedConfig.self, path)
 
@@ -59,7 +61,8 @@ class NekoFileYamlLoaderSuite {
         #expect("Nested Gary Ascuy".isEqual(config.config.name))
     }
 
-    @Test func testLoadNestedYamlWithCommentsConfig() throws {
+    @Test
+    func testLoadNestedYamlWithCommentsConfig() throws {
         let path = "./Tests/Data/Loader/Yaml/TestNestedConfig.yaml"
         let config = try NekoFileLoader.NekoFile.loadYaml(TestNestedConfig.self, path)
 
@@ -70,14 +73,16 @@ class NekoFileYamlLoaderSuite {
 
 @Suite
 class NekoFileTomlLoaderSuite {
-    @Test func testLoadTomlConfig() throws {
+    @Test
+    func testLoadTomlConfig() throws {
         let path = "./Tests/Data/Loader/Toml/TestConfig.toml"
         let config = try NekoFileLoader.NekoFile.loadToml(TestConfig.self, path)
 
         #expect("Gary Ascuy".isEqual(config.name))
     }
 
-    @Test func testLoadNestedTomlWithCommentsConfig() throws {
+    @Test
+    func testLoadNestedTomlWithCommentsConfig() throws {
         let path = "./Tests/Data/Loader/Toml/TestNestedConfig.toml"
         let config = try NekoFileLoader.NekoFile.loadToml(TestNestedConfig.self, path)
 
@@ -88,7 +93,8 @@ class NekoFileTomlLoaderSuite {
 
 @Suite
 class NekoFileCsvLoaderSuite {
-    @Test func testLoadCsvConfig() throws {
+    @Test
+    func testLoadCsvConfig() throws {
         let path = "./Tests/Data/Loader/Csv/TestConfig.csv"
         let configs = try NekoFileLoader.NekoFile.loadCsv(TestConfig.self, path)
 
@@ -98,7 +104,8 @@ class NekoFileCsvLoaderSuite {
     }
 
     // TODO: Update library or reader to support nested objects without trick
-    @Test func testLoadNestedCsvConfig() throws {
+    @Test
+    func testLoadNestedCsvConfig() throws {
         let path = "./Tests/Data/Loader/Csv/TestNestedConfig.csv"
         let configs = try NekoFileLoader.NekoFile.loadCsv(TestCsvNestedConfig.self, path)
 

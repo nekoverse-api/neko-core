@@ -33,19 +33,18 @@ extension NekoCore {
         public static func runCollection(
             _ config: NekoConfig, _ events: NekoRunLifeCycle?
         ) async throws {
-            // Hardcoded Plugins
-            let executor = NativeExecutorPlugin()
-            let tester = JavaScriptTesterPlugin()
+            let defaultExecutor = NativeExecutorPlugin()
+            let defaultTester = JavaScriptTesterPlugin()
 
             let vars = config.envs ?? JSON()
-            try await runFolder(config, vars, executor, tester, events)
+            try await runFolder(config, vars, defaultExecutor, defaultTester, events)
         }
 
         public static func runFolder(
             _ folderConfig: NekoFolderConfig,
             _ vars: JSON,
-            _ executor: NekoExecutorPlugin,
-            _ tester: NekoTesterPlugin,
+            _ defaultExecutor: NekoExecutorPlugin,
+            _ defaultTester: NekoTesterPlugin,
             _ events: NekoRunLifeCycle?
         ) async throws {
             do {
@@ -65,6 +64,10 @@ extension NekoCore {
                             let folderVars = folder.envs ?? JSON()
                             let resolvedVars = try resolvedVars.merged(with: folderVars)
 
+                            let meta = folder.meta
+                            let executor = getExecutorOrDefault(meta?.executor, defaultExecutor)
+                            let tester = getTesterOrDefault(meta?.executor, defaultTester)
+
                             try await runFolder(folder, resolvedVars, executor, tester, events)
                         }
                     }
@@ -74,9 +77,13 @@ extension NekoCore {
                         requests.sort { $0.meta?.seq ?? 0 > $1.meta?.seq ?? 0 }
                         events?.onFolderBeforeRequestExecution(requests, index)
 
-                        for request in requests {
+                        for request: NekoRequestConfig in requests {
                             let requestVars = request.envs ?? JSON()
                             let resolvedVars = try resolvedVars.merged(with: requestVars)
+
+                            let meta = request.meta
+                            let executor = getExecutorOrDefault(meta?.executor, defaultExecutor)
+                            let tester = getTesterOrDefault(meta?.executor, defaultTester)
 
                             try await runRequest(request, resolvedVars, executor, tester, events)
                         }
@@ -136,6 +143,20 @@ extension NekoCore {
     public static func getTestingScript(_ script: String?) -> String? {
         guard let script else { return nil }
         return script.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : script
+    }
+
+    public static func getExecutorOrDefault(
+        _ plugin: NekoPlugin?, _ defaultExecutor: NekoExecutorPlugin
+    ) -> NekoExecutorPlugin {
+        guard let plugin else { return defaultExecutor }
+        return Factory.getExecutor(plugin)
+    }
+
+    public static func getTesterOrDefault(
+        _ plugin: NekoPlugin?, _ defaultExecutor: NekoTesterPlugin
+    ) -> NekoTesterPlugin {
+        guard let plugin else { return defaultExecutor }
+        return Factory.getTester(plugin)
     }
 
     public static func getResolvedDataOrDefault(_ data: [JSON]?) -> [JSON] {

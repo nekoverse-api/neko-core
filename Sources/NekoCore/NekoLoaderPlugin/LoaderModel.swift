@@ -30,7 +30,7 @@ public struct NekoRequestMetadata: Codable {
 }
 
 public typealias NekoData = [[String: JSON]]
-public typealias NekoEnvironment = [String: String]
+public typealias NekoEnvironment = JSON
 
 public struct NekoFolderConfig: Codable {
     public var version: String?

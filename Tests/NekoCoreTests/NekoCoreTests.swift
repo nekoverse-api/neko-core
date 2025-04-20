@@ -103,7 +103,6 @@ class NekoFileCsvLoaderSuite {
         #expect("Gory Ascuy".isEqual(configs[1].name))
     }
 
-    // TODO: Update library or reader to support nested objects without trick
     @Test
     func testLoadNestedCsvConfig() throws {
         let path = "./Tests/Data/Loader/Csv/TestNestedConfig.csv"

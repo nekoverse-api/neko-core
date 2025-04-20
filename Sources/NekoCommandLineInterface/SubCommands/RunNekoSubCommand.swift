@@ -41,6 +41,9 @@ struct RunNekoCommand: AsyncParsableCommand, NekoCore.NekoRunLifeCycle {
     }
 
     public func onRequestCompleted(_ response: NekoResponse) {
+        print("")
+        cli.title("REQUEST COMPLETED")
+        print(response)
     }
 
     public func onRequestTestingStarted(_ requestConfig: NekoRequestConfig, _ script: String) {
@@ -50,6 +53,7 @@ struct RunNekoCommand: AsyncParsableCommand, NekoCore.NekoRunLifeCycle {
     }
 
     public func onRequestError(_ error: Error) {
+        cli.error("Unable to perform a request")
     }
 
     // Folder Events

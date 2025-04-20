@@ -35,13 +35,18 @@ struct RunNekoCommand: AsyncParsableCommand, NekoCore.NekoRunLifeCycle {
     }
 
     // Request Events
-    public func onRequestStarted(_ requestConfig: NekoRequestConfig, _ resolvedVars: JSON) {
+    func onRequestBeforeAll(_ requestConfig: NekoRequestConfig, _ resolvedVars: JSON) {
     }
 
-    public func onRequestProcessed(_ request: NekoRequest) {
+    public func onRequestStarted(
+        _ requestConfig: NekoRequestConfig, _ resolvedVars: JSON, _ index: Int
+    ) {
     }
 
-    public func onRequestCompleted(_ response: NekoResponse) {
+    public func onRequestProcessed(_ request: NekoRequest, _ index: Int) {
+    }
+
+    public func onRequestCompleted(_ response: NekoResponse, _ index: Int) {
         print("")
         print("")
 
@@ -76,10 +81,15 @@ struct RunNekoCommand: AsyncParsableCommand, NekoCore.NekoRunLifeCycle {
         }
     }
 
-    public func onRequestTestingStarted(_ requestConfig: NekoRequestConfig, _ script: String) {
+    public func onRequestTestingStarted(
+        _ requestConfig: NekoRequestConfig, _ script: String, _ index: Int
+    ) {
     }
 
-    public func onRequestTestingCompleted(_ testResponse: NekoTestResponse) {
+    public func onRequestTestingCompleted(_ testResponse: NekoTestResponse, _ index: Int) {
+    }
+
+    func onRequestAfterAll(_ requestConfig: NekoRequestConfig) {
     }
 
     public func onRequestError(_ error: Error) {

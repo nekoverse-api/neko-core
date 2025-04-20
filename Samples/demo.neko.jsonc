@@ -104,6 +104,14 @@
                 "name": "1 Update User",
                 "seq": 1
             },
+            "data": [
+                {
+                    "customHeader": "gary"
+                },
+                {
+                    "customHeader": "ascuy"
+                }
+            ],
             "http": {
                 "url": "{{baseUrl}}/api/v1/put",
                 "method": "PUT",
@@ -113,7 +121,8 @@
                     "limit": "10"
                 },
                 "headers": {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "x-Neko-Header": "{{customHeader}}"
                 }
             }
         }

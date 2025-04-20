@@ -3,13 +3,18 @@ import SwiftyJSON
 extension NekoCore {
     public protocol NekoRunLifeCycle {
         // Request Events
-        func onRequestStarted(_ requestConfig: NekoRequestConfig, _ resolvedVars: JSON)
-        func onRequestProcessed(_ request: NekoRequest)
-        func onRequestCompleted(_ response: NekoResponse)
+        func onRequestBeforeAll(_ requestConfig: NekoRequestConfig, _ resolvedVars: JSON)
 
-        func onRequestTestingStarted(_ requestConfig: NekoRequestConfig, _ script: String)
-        func onRequestTestingCompleted(_ testResponse: NekoTestResponse)
+        func onRequestStarted(
+            _ requestConfig: NekoRequestConfig, _ resolvedVars: JSON, _ index: Int)
+        func onRequestProcessed(_ request: NekoRequest, _ index: Int)
+        func onRequestCompleted(_ response: NekoResponse, _ index: Int)
 
+        func onRequestTestingStarted(
+            _ requestConfig: NekoRequestConfig, _ script: String, _ index: Int)
+        func onRequestTestingCompleted(_ testResponse: NekoTestResponse, _ index: Int)
+
+        func onRequestAfterAll(_ requestConfig: NekoRequestConfig)
         func onRequestError(_ error: Error)
 
         // Folder Events
@@ -81,24 +86,34 @@ extension NekoCore {
             _ events: NekoRunLifeCycle?
         ) async throws {
             do {
-                events?.onRequestStarted(requestConfig, vars)
-                let request = NekoMustacheTemplate.replaceRequestVariables(requestConfig.http, vars)
+                events?.onRequestBeforeAll(requestConfig, vars)
+                let resolvedData = requestConfig.data ?? [JSON()]
 
-                events?.onRequestProcessed(request)
+                for (index, data) in resolvedData.enumerated() {
+                    let resolvedVars = try vars.merged(with: data)
 
-                let response = try await executor.execute(request)
-                events?.onRequestCompleted(response)
+                    events?.onRequestStarted(requestConfig, resolvedVars, index)
+                    let request = NekoMustacheTemplate.replaceRequestVariables(
+                        requestConfig.http, resolvedVars)
 
-                if let postScript = getTestingScript(requestConfig.scripts?.postScript) {
-                    var script = postScript
-                    if requestConfig.scripts?.useVariables ?? false {
-                        script = NekoMustacheTemplate.replaceVariables(postScript, vars)
+                    events?.onRequestProcessed(request, index)
+
+                    let response = try await executor.execute(request)
+                    events?.onRequestCompleted(response, index)
+
+                    if let postScript = getTestingScript(requestConfig.scripts?.postScript) {
+                        var script = postScript
+                        if requestConfig.scripts?.useVariables ?? false {
+                            script = NekoMustacheTemplate.replaceVariables(postScript, resolvedVars)
+                        }
+
+                        events?.onRequestTestingStarted(requestConfig, script, index)
+                        let testResponse = try await tester.test(script, response)
+                        events?.onRequestTestingCompleted(testResponse, index)
                     }
-
-                    events?.onRequestTestingStarted(requestConfig, script)
-                    let testResponse = try await tester.test(script, response)
-                    events?.onRequestTestingCompleted(testResponse)
                 }
+
+                events?.onRequestAfterAll(requestConfig)
             } catch {
                 events?.onRequestError(error)
             }

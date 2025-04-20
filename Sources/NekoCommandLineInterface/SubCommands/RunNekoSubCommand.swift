@@ -42,8 +42,27 @@ struct RunNekoCommand: AsyncParsableCommand, NekoCore.NekoRunLifeCycle {
 
     public func onRequestCompleted(_ response: NekoResponse) {
         print("")
-        cli.title("REQUEST COMPLETED")
-        print(response)
+        // cli.title("REQUEST COMPLETED")
+        switch response.status {
+        case .success:
+            cli.success("It works")
+        case .failure(let error):
+            cli.error("Error: \(error)")
+        }
+
+        print(
+            "StatusCode: (\( response.statusCode)) / Time: (\(response.metadata.timeInMs?[.TOTAL] ?? "0 ms"))"
+                .green
+        )
+
+        if let time = response.metadata.timeInMs {
+            print("SocketInitialization:\t\(time[.SocketInitialization] ?? "0 ms")")
+            print("DnsLookup:\t\t\(time[.DnsLookup] ?? "0 ms")")
+            print("TCPHandshake:\t\t\(time[.TCPHandshake] ?? "0 ms")")
+            print("SSLHandshake:\t\t\(time[.SSLHandshake] ?? "0 ms")")
+            print("WaitingTTFB:\t\t\(time[.WaitingTimeToFirstByte] ?? "0 ms")")
+            print("Download:\t\t\(time[.Download] ?? "0 ms")")
+        }
     }
 
     public func onRequestTestingStarted(_ requestConfig: NekoRequestConfig, _ script: String) {

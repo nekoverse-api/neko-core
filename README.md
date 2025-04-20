@@ -62,6 +62,21 @@ swift run neko show --output-format toml ./Samples/demo.neko.jsonc | dasel -r to
 
 ```
 
+## TODO (Features)
+
+- [ ] Loader 
+    - [x] Add support for TOML files
+    - [x] Add support for YAML files
+    - [x] Add support for JSON files
+    - [x] Add support for CSV files
+    - [ ] Add support for gRPC plugins
+- [ ] Executor
+    - [x] Add support for native executor 
+    - [ ] Add support for gRPC plugins
+- [ ] Tester 
+    - [ ] Add support for JavaScript plugin 
+    - [ ] Add support for gRPC plugins
+
 ## Trademark
 
 **Logo**

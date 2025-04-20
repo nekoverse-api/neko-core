@@ -32,7 +32,13 @@ extension NekoCore {
                 body = String(data: data, encoding: encoding)
             }
 
+            var status: NekoResponseStatus = .success
+            if let error = res.error {
+                status = .failure(error: "\(error)")
+            }
+
             return NekoResponse(
+                status: status,
                 url: req.url,
                 method: req.method,
                 parameters: req.parameters,

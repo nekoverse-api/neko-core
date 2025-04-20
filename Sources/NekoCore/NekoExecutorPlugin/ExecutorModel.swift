@@ -66,7 +66,14 @@ public struct NekoResponseMetadata: Codable {
     public var network: NekoResponseMetadataNetwork?
 }
 
+public enum NekoResponseStatus: Codable {
+    case success
+    case failure(error: String)  // TODO: Improve error to send AFError
+}
+
 public struct NekoResponse: Codable {
+    public var status: NekoResponseStatus
+
     public var url: String
     public var method: String
 

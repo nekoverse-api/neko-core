@@ -60,6 +60,9 @@
                         "name": "0 Get User",
                         "seq": 0
                     },
+                    "envs": {
+                        "baseUrl": "https://echo.nekoverse.me"
+                    },
                     "http": {
                         "url": "{{baseUrl}}/api/v1/get",
                         "method": "GET",

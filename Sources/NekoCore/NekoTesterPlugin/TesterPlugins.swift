@@ -7,3 +7,10 @@ public struct JavaScriptTesterPlugin: NekoTesterPlugin {
         return NekoTestResponse(type: .Passed, asserts: [])
     }
 }
+
+public struct GRPCTesterPlugin: NekoTesterPlugin {
+    public func test(_ script: String, _ response: NekoResponse) async throws -> NekoTestResponse {
+        // TODO: Not implemented yet
+        return NekoTestResponse(type: .Passed, asserts: [])
+    }
+}

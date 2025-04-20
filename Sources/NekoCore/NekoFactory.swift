@@ -1,15 +1,9 @@
 extension NekoCore {
-    static func lowercased(_ values: [String]) -> [String] {
-        return values.map { $0.lowercased() }
-    }
-
-    public struct LoaderFactoryUtils {
+    public struct LoaderFactoryUtils: GRPCFactoryUtils {
         static let NATIVE_PLUGIN_NAMES = lowercased(["Native", "NativePlugin"])
         static let GIT_FRIENDLY_PLUGIN_NAMES = lowercased(["GitFriendly", "GitFriendlyPlugin"])
-        static let GRPC_PLUGIN_NAMES = lowercased(["RGPC", "RGPCPlugin"])
 
         public static func isNative(_ plugin: NekoPlugin) -> Bool {
-
             guard let name = plugin.name else { return false }
             return LoaderFactoryUtils.NATIVE_PLUGIN_NAMES.contains(name.lowercased())
         }
@@ -19,25 +13,23 @@ extension NekoCore {
             return LoaderFactoryUtils.GIT_FRIENDLY_PLUGIN_NAMES.contains(name.lowercased())
         }
 
-        public static func isGRPC(_ plugin: NekoPlugin) -> Bool {
-
-            guard let name = plugin.name else { return false }
-            return LoaderFactoryUtils.GRPC_PLUGIN_NAMES.contains(name.lowercased())
-        }
     }
 
-    public struct ExecutorFactoryUtils {
+    public struct ExecutorFactoryUtils: GRPCFactoryUtils {
         static let NATIVE_PLUGIN_NAMES = lowercased(["Native", "NativePlugin"])
-        static let GRPC_PLUGIN_NAMES = lowercased(["RGPC", "RGPCPlugin"])
 
         public static func isNative(_ plugin: NekoPlugin) -> Bool {
             guard let name = plugin.name else { return false }
-            return LoaderFactoryUtils.NATIVE_PLUGIN_NAMES.contains(name.lowercased())
+            return ExecutorFactoryUtils.NATIVE_PLUGIN_NAMES.contains(name.lowercased())
         }
+    }
 
-        public static func isGRPC(_ plugin: NekoPlugin) -> Bool {
+    public struct TesterFactoryUtils: GRPCFactoryUtils {
+        static let JAVASCRIPT_PLUGIN_NAMES = lowercased(["JavaScript", "JavaScriptPlugin"])
+
+        public static func isJavaScript(_ plugin: NekoPlugin) -> Bool {
             guard let name = plugin.name else { return false }
-            return LoaderFactoryUtils.GRPC_PLUGIN_NAMES.contains(name.lowercased())
+            return TesterFactoryUtils.JAVASCRIPT_PLUGIN_NAMES.contains(name.lowercased())
         }
     }
 
@@ -52,6 +44,12 @@ extension NekoCore {
             -> NekoExecutorPlugin
         {
             return getExecutor(NekoPlugin(name: name, properties: properties))
+        }
+
+        public static func getTesterBy(_ name: String, _ properties: [String: String])
+            -> NekoTesterPlugin
+        {
+            return getTester(NekoPlugin(name: name, properties: properties))
         }
 
         public static func getLoader(_ plugin: NekoPlugin) -> NekoLoaderPlugin {
@@ -72,17 +70,41 @@ extension NekoCore {
 
         public static func getExecutor(_ plugin: NekoPlugin) -> NekoExecutorPlugin {
             if ExecutorFactoryUtils.isNative(plugin) {
-                print("Using Native Executor Plugin")
                 return NativeExecutorPlugin()
             }
 
             if ExecutorFactoryUtils.isGRPC(plugin) {
-                print("Using gRPC Executor Plugin")
                 return GRPCExecutorPlugin()
             }
 
-            print("Using Native Executor Plugin as default")
             return NativeExecutorPlugin()
         }
+
+        public static func getTester(_ plugin: NekoPlugin) -> NekoTesterPlugin {
+            if TesterFactoryUtils.isJavaScript(plugin) {
+                return JavaScriptTesterPlugin()
+            }
+
+            if TesterFactoryUtils.isGRPC(plugin) {
+                return GRPCTesterPlugin()
+            }
+
+            return JavaScriptTesterPlugin()
+        }
+    }
+}
+
+func lowercased(_ values: [String]) -> [String] {
+    return values.map { $0.lowercased() }
+}
+
+protocol GRPCFactoryUtils {}
+
+extension GRPCFactoryUtils {
+    public static func isGRPC(_ plugin: NekoPlugin) -> Bool {
+        let GRPC_PLUGIN_NAMES = lowercased(["RGPC", "RGPCPlugin"])
+
+        guard let name = plugin.name else { return false }
+        return GRPC_PLUGIN_NAMES.contains(name.lowercased())
     }
 }

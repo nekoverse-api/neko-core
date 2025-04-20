@@ -14,6 +14,78 @@ Neko is a Faster, Git-Friendly, Flexible, Extensible and Highly Plugineable API 
 
 <img src="https://www.mermaidchart.com/raw/f5b55c39-1274-4bf3-a8a4-64ed78753f5a?theme=base&version=v0.1&format=svg" width="100%" />
 
+
+## TODO (Features)
+
+- [x] **Neko Command Line Interface**
+    - [x] Load neko config files
+    - [x] Add `show` subcommand `neko show --output-format yaml ./SampleCollection.neko.jsonc`
+        [x] Add metadata for options
+        [x] Implement subcommand to show the config in different formats
+        [ ] (NiceToHave) Validate Neko Config Files
+    - [x] Add `run` subcommand `neko run ./SampleCollection.neko.jsonc`
+        [x] Add metadata for options 
+        [x] Implement subcommand to show the config in different formats
+    - [ ] Improve Logs 
+- [ ] **Neko GUI (MacOS Native App)**
+    - [x] Create a POC [SwiftUI MacOs APP](https://github.com/nekoverse-api/neko-console-swiftui)
+    - [ ] Create project
+- [ ] **Neko in VSCode**
+    - [x] Add plugin to support files (almost done since it use JSON/YAML/TOML/CSV files)
+        - [x] just add *.neko as TOML in Association File in VS Code settings
+    - [ ] Plugin
+        - [ ] Create project action
+        - [ ] Run Collection
+        - [ ] Run Folder
+        - [ ] Run Request 
+- [ ] **Neko Core**
+    - [x] Create gRPC POC [Swift gRPC Server](https://github.com/Gary-Ascuy/gRPC-Server-MacOS)
+    - [x] Factory
+        [x] Add support for loaders in factory 
+        [x] Add support for executors in factory 
+        [x] Add support for testers in factory 
+     - [x] NekoRunCollection
+        - [x] Support folders 
+        - [x] Support requests
+        - [x] Support message notification
+        - [ ] Support Variables 
+        - [ ] Support Data Variables
+    - [x] NekoMustacheTemplate
+        - [x] Add support for templates
+        - [x] Add support for variables in template
+        - [x] Add support for nested variables in template
+        - [x] Add support 
+    - [ ] Loader
+        - [x] AlamofireNekoNetwork
+            - [x] Perform requests
+            - [x] Get metadata from request & response
+                - [x] Size of Request & Response for Body and Headers
+                - [x] Duration of phases (e.g. DnsLookup, SSLHandshake, Download, ...)
+                - [x] Duration in miliseconds of phases (e.g. DnsLookup, SSLHandshake, Download, ...)
+                - [x] TLS metadata (TLS Protocol Version, TLS Cipher Suite)
+                - [x] IP & Port of local and remote 
+        - [x] NekoFileLoader
+            - [x] Add support for TOML files
+            - [x] Add support for YAML files
+            - [x] Add support for JSON files
+            - [x] Add support for CSV files
+        - Plugins
+            - [x] Define models and protocols 
+            - [x] Add File loader plugin
+            - [ ] Add GitFriendly loader plugin
+            - [ ] Add gRPC loader plugin
+    - [ ] Executor
+        - [ ] Plugins
+            - [x] Define models and protocols
+            - [x] Add Native executor plugin
+            - [ ] Add gRPC executor plugins
+    - [ ] Tester 
+        - JavaScript Sandbox for test scripts
+        - [ ] Plugins 
+            - [x] Define models and protocols
+            - [ ] Add support for JavaScript plugin 
+            - [ ] Add support for gRPC plugins
+
 ## Local Development 
 
 Build Project 
@@ -61,31 +133,6 @@ swift run neko show --output-format toml ./Samples/demo.neko.jsonc | tq .
 swift run neko show --output-format toml ./Samples/demo.neko.jsonc | dasel -r toml
 
 ```
-
-## TODO (Features)
-
-- [x] Neko Command Line Interface
-    - [x] Add `show` subcommand `neko show --output-format yaml ./SampleCollection.neko.jsonc`
-    - [x] Add `run` subcommand `neko run ./SampleCollection.neko.jsonc`
-    - [ ] Improve Logs 
-- [ ] Neko GUI (MacOS Native App) 
-    - [x] Create a POC [SwiftUI MacOs APP](https://github.com/nekoverse-api/neko-console-swiftui)
-    - [ ] Create project
-- [ ] Neko Core
-    - [ ] Loader 
-        - [x] Add support for TOML files
-        - [x] Add support for YAML files
-        - [x] Add support for JSON files
-        - [x] Add support for CSV files
-        - [x] Add File loader plugin
-        - [ ] Add GitFriendly loader plugin
-        - [ ] Add gRPC loader plugin
-    - [ ] Executor
-        - [x] Add Native executor plugin
-        - [ ] Add gRPC executor plugins
-    - [ ] Tester 
-        - [ ] Add support for JavaScript plugin 
-        - [ ] Add support for gRPC plugins
 
 ## Trademark
 

@@ -1,5 +1,4 @@
 import Alamofire
-// import AlamofireNetworkActivityLogger
 import Foundation
 
 extension NekoCore {

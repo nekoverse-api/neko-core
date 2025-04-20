@@ -3,7 +3,7 @@ import Logging
 import NekoCore
 import Rainbow
 
-struct RunNekoCommand: AsyncParsableCommand {
+struct RunNekoCommand: AsyncParsableCommand, NekoCore.NekoRunLifeCycle {
     static let configuration = CommandConfiguration(
         commandName: "run",
         abstract: "Runs Neko Project."
@@ -24,12 +24,62 @@ struct RunNekoCommand: AsyncParsableCommand {
     func run() async throws {
         do {
             cli.title("Starting Neko Collection Execution")
-            let params = buildExecutionParams(path: path, plugin: plugin, general: general)
-            try await NekoCore.runNekoCollection(params)
+            let config = try await getConfig()
+            try await NekoCore.NekoRunCollection.runCollection(config, self)
             cli.success("Completed successfully")
         } catch {
             cli.error("Error trying to execute collection")
             throw error
         }
+    }
+
+    func getConfig() async throws -> NekoConfig {
+        do {
+            let name = "\(plugin.loaderPlugin)"
+            var properties = [String: String]()
+            plugin.loaderProperties.forEach { properties[$0.key] = $0.value }
+
+            let loader = NekoCore.Factory.getLoaderBy(name, properties)
+            let config = try await loader.load(path)
+            return config
+        } catch {
+            cli.error("Error trying load Neko Config")
+            throw error
+        }
+    }
+
+    // Request Events
+    public func onRequestStarted(_ requestConfig: NekoRequestConfig) {
+    }
+
+    public func onRequestProcessed(_ request: NekoRequest) {
+    }
+
+    public func onRequestCompleted(_ response: NekoResponse) {
+    }
+
+    public func onRequestTestingStarted(_ requestConfig: NekoRequestConfig, _ script: String) {
+    }
+
+    public func onRequestTestingCompleted(_ testResponse: NekoTestResponse) {
+    }
+
+    public func onRequestError(_ error: Error) {
+    }
+
+    // Folder Events
+    public func onFolderStarted(_ folderConfig: NekoFolderConfig) {
+    }
+
+    public func onFolderBeforeFolderExecution(_ sortedFolders: [NekoFolderConfig]) {
+    }
+
+    public func onFolderBeforeRequestExecution(_ sortedRequests: [NekoRequestConfig]) {
+    }
+
+    public func onFolderCompleted(_ folderConfig: NekoFolderConfig) {
+    }
+
+    public func onFolderError(_ error: Error) {
     }
 }

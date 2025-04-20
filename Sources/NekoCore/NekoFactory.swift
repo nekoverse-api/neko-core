@@ -42,6 +42,18 @@ extension NekoCore {
     }
 
     public struct Factory {
+        public static func getLoaderBy(_ name: String, _ properties: [String: String])
+            -> NekoLoaderPlugin
+        {
+            return getLoader(NekoPlugin(name: name, properties: properties))
+        }
+
+        public static func getExecutorBy(_ name: String, _ properties: [String: String])
+            -> NekoExecutorPlugin
+        {
+            return getExecutor(NekoPlugin(name: name, properties: properties))
+        }
+
         public static func getLoader(_ plugin: NekoPlugin) -> NekoLoaderPlugin {
             if LoaderFactoryUtils.isNative(plugin) {
                 return NativeLoaderPlugin()

@@ -41,9 +41,9 @@ Neko is a Faster, Git-Friendly, Flexible, Extensible and Highly Plugineable API 
 - [ ] **Neko Core**
     - [x] Create gRPC POC [Swift gRPC Server](https://github.com/Gary-Ascuy/gRPC-Server-MacOS)
     - [x] Factory
-        [x] Add support for loaders in factory 
-        [x] Add support for executors in factory 
-        [x] Add support for testers in factory 
+        - [x] Add support for loaders in factory 
+        - [x] Add support for executors in factory 
+        - [x] Add support for testers in factory 
      - [x] NekoRunCollection
         - [x] Support folders 
         - [x] Support requests

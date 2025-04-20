@@ -43,16 +43,22 @@
         "baseUrl": "https://echo.nekoverse.me",
         "userId": "7a0eed16-9430-4d68-901f-c0d4c1c3bf00"
     },
-    "data": [
-        {
-            "name": "test"
-        }
-    ],
     // 
     // Content Folders & Requests
     //  
     "folders": [
         {
+            "data": [
+                {
+                    "pathCustom": "gary"
+                },
+                {
+                    "pathCustom": "ascuy"
+                },
+                {
+                    "pathCustom": "anturiano"
+                }
+            ],
             "requests": [
                 {
                     // Request 1
@@ -64,7 +70,7 @@
                         "baseUrl": "https://echo.nekoverse.me"
                     },
                     "http": {
-                        "url": "{{baseUrl}}/api/v1/get",
+                        "url": "{{baseUrl}}/api/v1/{{pathCustom}}",
                         "method": "GET",
                         "parameters": {
                             "limit": "2"

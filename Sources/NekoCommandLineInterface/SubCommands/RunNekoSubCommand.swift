@@ -97,16 +97,25 @@ struct RunNekoCommand: AsyncParsableCommand, NekoCore.NekoRunLifeCycle {
     }
 
     // Folder Events
-    public func onFolderStarted(_ folderConfig: NekoFolderConfig, _ resolvedVars: JSON) {
+    public func onFolderBeforeAll(_ folderConfig: NekoFolderConfig, _ resolvedVars: JSON) {
     }
 
-    public func onFolderBeforeFolderExecution(_ sortedFolders: [NekoFolderConfig]) {
+    public func onFolderStarted(
+        _ folderConfig: NekoFolderConfig, _ resolvedVars: JSON, _ index: Int
+    ) {
     }
 
-    public func onFolderBeforeRequestExecution(_ sortedRequests: [NekoRequestConfig]) {
+    public func onFolderBeforeFolderExecution(_ sortedFolders: [NekoFolderConfig], _ index: Int) {
     }
 
-    public func onFolderCompleted(_ folderConfig: NekoFolderConfig) {
+    public func onFolderBeforeRequestExecution(_ sortedRequests: [NekoRequestConfig], _ index: Int)
+    {
+    }
+
+    public func onFolderCompleted(_ folderConfig: NekoFolderConfig, _ index: Int) {
+    }
+
+    public func onFolderAfterAll(_ folderConfig: NekoFolderConfig) {
     }
 
     public func onFolderError(_ error: Error) {

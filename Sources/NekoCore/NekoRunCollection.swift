@@ -18,11 +18,14 @@ extension NekoCore {
         func onRequestError(_ error: Error)
 
         // Folder Events
-        func onFolderStarted(_ folderConfig: NekoFolderConfig, _ resolvedVars: JSON)
-        func onFolderBeforeFolderExecution(_ sortedFolders: [NekoFolderConfig])
-        func onFolderBeforeRequestExecution(_ sortedRequests: [NekoRequestConfig])
-        func onFolderCompleted(_ folderConfig: NekoFolderConfig)
+        func onFolderBeforeAll(_ folderConfig: NekoFolderConfig, _ resolvedVars: JSON)
 
+        func onFolderStarted(_ folderConfig: NekoFolderConfig, _ resolvedVars: JSON, _ index: Int)
+        func onFolderBeforeFolderExecution(_ sortedFolders: [NekoFolderConfig], _ index: Int)
+        func onFolderBeforeRequestExecution(_ sortedRequests: [NekoRequestConfig], _ index: Int)
+        func onFolderCompleted(_ folderConfig: NekoFolderConfig, _ index: Int)
+
+        func onFolderAfterAll(_ folderConfig: NekoFolderConfig)
         func onFolderError(_ error: Error)
     }
 
@@ -46,33 +49,43 @@ extension NekoCore {
             _ events: NekoRunLifeCycle?
         ) async throws {
             do {
-                events?.onFolderStarted(folderConfig, vars)
+                events?.onFolderBeforeAll(folderConfig, vars)
+                let resolvedData = getResolvedDataOrDefault(folderConfig.data)
 
-                if var folders = folderConfig.folders {
-                    folders.sort { $0.meta?.seq ?? 0 > $1.meta?.seq ?? 0 }
-                    events?.onFolderBeforeFolderExecution(folders)
+                for (index, data) in resolvedData.enumerated() {
+                    let resolvedVars = try vars.merged(with: data)
+                    events?.onFolderStarted(folderConfig, resolvedVars, index)
 
-                    for folder in folders {
-                        let folderVars = folder.envs ?? JSON()
-                        let resolvedVars = try vars.merged(with: folderVars)
+                    // Folders
+                    if var folders = folderConfig.folders {
+                        folders.sort { $0.meta?.seq ?? 0 > $1.meta?.seq ?? 0 }
+                        events?.onFolderBeforeFolderExecution(folders, index)
 
-                        try await runFolder(folder, resolvedVars, executor, tester, events)
+                        for folder in folders {
+                            let folderVars = folder.envs ?? JSON()
+                            let resolvedVars = try resolvedVars.merged(with: folderVars)
+
+                            try await runFolder(folder, resolvedVars, executor, tester, events)
+                        }
                     }
+
+                    // Requests
+                    if var requests = folderConfig.requests {
+                        requests.sort { $0.meta?.seq ?? 0 > $1.meta?.seq ?? 0 }
+                        events?.onFolderBeforeRequestExecution(requests, index)
+
+                        for request in requests {
+                            let requestVars = request.envs ?? JSON()
+                            let resolvedVars = try resolvedVars.merged(with: requestVars)
+
+                            try await runRequest(request, resolvedVars, executor, tester, events)
+                        }
+                    }
+
+                    events?.onFolderCompleted(folderConfig, index)
                 }
 
-                if var requests = folderConfig.requests {
-                    requests.sort { $0.meta?.seq ?? 0 > $1.meta?.seq ?? 0 }
-                    events?.onFolderBeforeRequestExecution(requests)
-
-                    for request in requests {
-                        let requestVars = request.envs ?? JSON()
-                        let resolvedVars = try vars.merged(with: requestVars)
-
-                        try await runRequest(request, resolvedVars, executor, tester, events)
-                    }
-                }
-
-                events?.onFolderCompleted(folderConfig)
+                events?.onFolderAfterAll(folderConfig)
             } catch {
                 events?.onFolderError(error)
             }
@@ -87,7 +100,7 @@ extension NekoCore {
         ) async throws {
             do {
                 events?.onRequestBeforeAll(requestConfig, vars)
-                let resolvedData = requestConfig.data ?? [JSON()]
+                let resolvedData = getResolvedDataOrDefault(requestConfig.data)
 
                 for (index, data) in resolvedData.enumerated() {
                     let resolvedVars = try vars.merged(with: data)
@@ -123,5 +136,10 @@ extension NekoCore {
     public static func getTestingScript(_ script: String?) -> String? {
         guard let script else { return nil }
         return script.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : script
+    }
+
+    public static func getResolvedDataOrDefault(_ data: [JSON]?) -> [JSON] {
+        guard let data else { return [JSON()] }
+        return data.count == 0 ? [JSON()] : data
     }
 }

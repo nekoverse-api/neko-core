@@ -3,7 +3,7 @@ import SwiftyJSON
 extension NekoCore {
     public protocol NekoRunLifeCycle {
         // Request Events
-        func onRequestStarted(_ requestConfig: NekoRequestConfig)
+        func onRequestStarted(_ requestConfig: NekoRequestConfig, _ resolvedVars: JSON)
         func onRequestProcessed(_ request: NekoRequest)
         func onRequestCompleted(_ response: NekoResponse)
 
@@ -13,7 +13,7 @@ extension NekoCore {
         func onRequestError(_ error: Error)
 
         // Folder Events
-        func onFolderStarted(_ folderConfig: NekoFolderConfig)
+        func onFolderStarted(_ folderConfig: NekoFolderConfig, _ resolvedVars: JSON)
         func onFolderBeforeFolderExecution(_ sortedFolders: [NekoFolderConfig])
         func onFolderBeforeRequestExecution(_ sortedRequests: [NekoRequestConfig])
         func onFolderCompleted(_ folderConfig: NekoFolderConfig)
@@ -25,16 +25,11 @@ extension NekoCore {
         public static func runCollection(
             _ config: NekoConfig, _ events: NekoRunLifeCycle?
         ) async throws {
-            // Hardcoded Varaibles
-            let vars = JSON([
-                "baseUrl": "https://echo.nekoverse.me",
-                "userId": "123122153234234324",
-            ])
-
-            // Hoardcoded Plugins
+            // Hardcoded Plugins
             let executor = NativeExecutorPlugin()
             let tester = JavaScriptTesterPlugin()
 
+            let vars = config.envs ?? JSON()
             try await runFolder(config, vars, executor, tester, events)
         }
 
@@ -46,14 +41,17 @@ extension NekoCore {
             _ events: NekoRunLifeCycle?
         ) async throws {
             do {
-                events?.onFolderStarted(folderConfig)
+                events?.onFolderStarted(folderConfig, vars)
 
                 if var folders = folderConfig.folders {
                     folders.sort { $0.meta?.seq ?? 0 > $1.meta?.seq ?? 0 }
                     events?.onFolderBeforeFolderExecution(folders)
 
                     for folder in folders {
-                        try await runFolder(folder, vars, executor, tester, events)
+                        let folderVars = folder.envs ?? JSON()
+                        let resolvedVars = try vars.merged(with: folderVars)
+
+                        try await runFolder(folder, resolvedVars, executor, tester, events)
                     }
                 }
 
@@ -62,7 +60,10 @@ extension NekoCore {
                     events?.onFolderBeforeRequestExecution(requests)
 
                     for request in requests {
-                        try await runRequest(request, vars, executor, tester, events)
+                        let requestVars = request.envs ?? JSON()
+                        let resolvedVars = try vars.merged(with: requestVars)
+
+                        try await runRequest(request, resolvedVars, executor, tester, events)
                     }
                 }
 
@@ -72,7 +73,6 @@ extension NekoCore {
             }
         }
 
-        // TODO: Support Data (ForEach)
         public static func runRequest(
             _ requestConfig: NekoRequestConfig,
             _ vars: JSON,
@@ -81,7 +81,7 @@ extension NekoCore {
             _ events: NekoRunLifeCycle?
         ) async throws {
             do {
-                events?.onRequestStarted(requestConfig)
+                events?.onRequestStarted(requestConfig, vars)
                 let request = NekoMustacheTemplate.replaceRequestVariables(requestConfig.http, vars)
 
                 events?.onRequestProcessed(request)

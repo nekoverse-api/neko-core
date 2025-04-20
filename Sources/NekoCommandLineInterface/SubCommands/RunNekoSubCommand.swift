@@ -35,7 +35,7 @@ struct RunNekoCommand: AsyncParsableCommand, NekoCore.NekoRunLifeCycle {
     }
 
     // Request Events
-    public func onRequestStarted(_ requestConfig: NekoRequestConfig) {
+    public func onRequestStarted(_ requestConfig: NekoRequestConfig, _ resolvedVars: JSON) {
     }
 
     public func onRequestProcessed(_ request: NekoRequest) {
@@ -87,7 +87,7 @@ struct RunNekoCommand: AsyncParsableCommand, NekoCore.NekoRunLifeCycle {
     }
 
     // Folder Events
-    public func onFolderStarted(_ folderConfig: NekoFolderConfig) {
+    public func onFolderStarted(_ folderConfig: NekoFolderConfig, _ resolvedVars: JSON) {
     }
 
     public func onFolderBeforeFolderExecution(_ sortedFolders: [NekoFolderConfig]) {

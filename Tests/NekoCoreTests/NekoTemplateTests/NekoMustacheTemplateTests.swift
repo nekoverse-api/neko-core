@@ -210,4 +210,31 @@ struct NekoMustacheTemplateTests {
         #expect("application/json".isEqual(request.headers["Accept"]))
         #expect("1234".isEqual(request.headers["x-User-Id"]))
     }
+
+    /**
+     * Swift 5 & Alamofire 5 : GET method ERROR: Alamofire.AFError.URLRequestValidationFailureReason.bodyDataInGETRequest(22 bytes)
+     *
+     * Refs:
+     *  - https://stackoverflow.com/questions/60960976/swift-5-alamofire-5-get-method-error-alamofire-aferror-urlrequestvalidation
+     *  - https://alamofire.github.io/Alamofire/Enums/AFError/URLRequestValidationFailureReason.html
+     */
+    @Test
+    func testReplaceRequestVariablesErrorGetMethodBodyDataInGETRequest() async throws {
+        let vars: [String: Any] = ["url": "https://echo.nekoverse.me"]
+        let http = NekoHttp(
+            url: "{{url}}/get",
+            method: "GET",
+            parameters: [:],
+            headers: [:]
+        )
+
+        let request = Template.replaceRequestVariables(http, JSON(vars))
+
+        #expect("https://echo.nekoverse.me/get".isEqual(request.url))
+        #expect("GET".isEqual(request.method))
+
+        #expect(request.body == nil)
+        #expect(request.parameters.count == 0)
+        #expect(request.headers.count == 0)
+    }
 }

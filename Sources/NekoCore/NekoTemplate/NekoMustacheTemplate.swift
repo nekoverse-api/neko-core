@@ -44,8 +44,13 @@ extension NekoCore {
                 method: replaceVariables(http.method, vars),
                 parameters: replaceDictionaryVariables(http.parameters, vars),
                 headers: replaceDictionaryVariables(http.headers, vars),
-                body: replaceVariables(http.body, vars)
+                body: getBody(http.body, vars)
             )
+        }
+
+        private static func getBody(_ body: String?, _ vars: JSON) -> String? {
+            guard let body else { return nil }
+            return replaceVariables(body, vars)
         }
     }
 }

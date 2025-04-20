@@ -83,7 +83,9 @@ extension NekoCore {
             do {
                 events?.onRequestStarted(requestConfig)
                 let request = NekoMustacheTemplate.replaceRequestVariables(requestConfig.http, vars)
+
                 events?.onRequestProcessed(request)
+
                 let response = try await executor.execute(request)
                 events?.onRequestCompleted(response)
 

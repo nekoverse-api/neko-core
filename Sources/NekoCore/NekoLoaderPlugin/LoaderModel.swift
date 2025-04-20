@@ -66,7 +66,7 @@ public struct NekoRequestConfig: Codable {
     public var data: NekoData?
 
     public var http: NekoHttp
-    public var scripts: NekoTestScripts = NekoTestScripts()
+    public var scripts: NekoTestScripts?
 }
 
 /// Neko Configuration Model

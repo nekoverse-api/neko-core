@@ -87,9 +87,9 @@ extension NekoCore {
                 let response = try await executor.execute(request)
                 events?.onRequestCompleted(response)
 
-                if let postScript = getTestingScript(requestConfig.scripts.postScript) {
+                if let postScript = getTestingScript(requestConfig.scripts?.postScript) {
                     var script = postScript
-                    if requestConfig.scripts.useVariables {
+                    if requestConfig.scripts?.useVariables ?? false {
                         script = NekoMustacheTemplate.replaceVariables(postScript, vars)
                     }
 

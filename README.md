@@ -74,17 +74,24 @@ Neko is a Faster, Git-Friendly, Flexible, Extensible and Highly Plugineable API 
             - [x] Add File loader plugin
             - [ ] Add GitFriendly loader plugin
             - [ ] Add gRPC loader plugin
+                - [ ] Create gRPC Plugin as template for Community Support
     - [ ] Executor
         - [ ] Plugins
             - [x] Define models and protocols
             - [x] Add Native executor plugin
             - [ ] Add gRPC executor plugins
+                - [ ] Create gRPC Plugin as template for Community Support
     - [ ] Tester 
         - JavaScript Sandbox for test scripts
         - [ ] Plugins 
             - [x] Define models and protocols
-            - [ ] Add support for JavaScript plugin 
+            - [ ] Add support for JavaScript plugin
+                - [ ] Add support for unit tests
+                - [ ] Add support for reports
             - [ ] Add support for gRPC plugins
+                - [ ] Create gRPC Plugin as template for Community Support 
+                - [ ] Add support for unit tests
+                - [ ] Add support for reports
 
 ## Local Development 
 

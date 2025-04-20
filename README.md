@@ -58,7 +58,9 @@ Neko is a Faster, Git-Friendly, Flexible, Extensible and Highly Plugineable API 
         - [x] Add support for templates
         - [x] Add support for variables in template
         - [x] Add support for nested variables in template
-        - [x] Add support 
+        - [x] Add support for variables in dictionaries 
+        - [x] Add support for variables in requests
+        - [x] Add support for variables in headers names
     - [ ] Loader
         - [x] AlamofireNekoNetwork
             - [x] Perform requests

@@ -51,7 +51,7 @@ Neko is a Faster, Git-Friendly, Flexible, Extensible and Highly Plugineable API 
         - [x] Support folders 
         - [x] Support requests
         - [x] Support message notification
-        - [ ] Support Variables 
+        - [x] Support Variables 
         - [ ] Support Data Variables
     - [x] NekoMustacheTemplate
         - [x] Add support for templates

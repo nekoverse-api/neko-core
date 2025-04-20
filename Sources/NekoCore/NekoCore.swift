@@ -10,6 +10,11 @@ import Mustache
 import Rainbow
 import SwiftyJSON
 
+public struct NekoCore {
+    public static let version = "0.0.1"
+    public init() {}
+}
+
 //
 // NekoLoaderPlugin is used to load configuration
 //
@@ -29,9 +34,4 @@ public protocol NekoExecutorPlugin {
 //
 public protocol NekoTesterPlugin {
     func test(_ script: String, _ response: NekoResponse) async throws -> NekoTestResponse
-}
-
-public struct NekoCore {
-    public static let version = "0.0.1"
-    public init() {}
 }

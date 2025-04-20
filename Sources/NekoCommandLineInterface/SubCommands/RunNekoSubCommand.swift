@@ -45,7 +45,7 @@ struct RunNekoCommand: AsyncParsableCommand, NekoCore.NekoRunLifeCycle {
         // cli.title("REQUEST COMPLETED")
         switch response.status {
         case .success:
-            cli.success("It works")
+            cli.success("SUCCESS")
         case .failure(let error):
             cli.error("Error: \(error)")
         }

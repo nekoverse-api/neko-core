@@ -12,7 +12,6 @@ extension NekoCore {
             guard let name = plugin.name else { return false }
             return LoaderFactoryUtils.GIT_FRIENDLY_PLUGIN_NAMES.contains(name.lowercased())
         }
-
     }
 
     public struct ExecutorFactoryUtils: GRPCFactoryUtils {
@@ -52,7 +51,7 @@ extension NekoCore {
             return getTester(NekoPlugin(name: name, properties: properties))
         }
 
-        public static func getLoader(_ plugin: NekoPlugin) -> NekoLoaderPlugin {
+        static func getLoader(_ plugin: NekoPlugin) -> NekoLoaderPlugin {
             if LoaderFactoryUtils.isNative(plugin) {
                 return NativeLoaderPlugin()
             }
@@ -68,7 +67,7 @@ extension NekoCore {
             return NativeLoaderPlugin()
         }
 
-        public static func getExecutor(_ plugin: NekoPlugin) -> NekoExecutorPlugin {
+        static func getExecutor(_ plugin: NekoPlugin) -> NekoExecutorPlugin {
             if ExecutorFactoryUtils.isNative(plugin) {
                 return NativeExecutorPlugin()
             }
@@ -80,7 +79,7 @@ extension NekoCore {
             return NativeExecutorPlugin()
         }
 
-        public static func getTester(_ plugin: NekoPlugin) -> NekoTesterPlugin {
+        static func getTester(_ plugin: NekoPlugin) -> NekoTesterPlugin {
             if TesterFactoryUtils.isJavaScript(plugin) {
                 return JavaScriptTesterPlugin()
             }
@@ -102,7 +101,7 @@ protocol GRPCFactoryUtils {}
 
 extension GRPCFactoryUtils {
     public static func isGRPC(_ plugin: NekoPlugin) -> Bool {
-        let GRPC_PLUGIN_NAMES = lowercased(["RGPC", "RGPCPlugin"])
+        let GRPC_PLUGIN_NAMES = lowercased(["gRPC", "gRPCPlugin"])
 
         guard let name = plugin.name else { return false }
         return GRPC_PLUGIN_NAMES.contains(name.lowercased())

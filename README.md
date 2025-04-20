@@ -64,18 +64,28 @@ swift run neko show --output-format toml ./Samples/demo.neko.jsonc | dasel -r to
 
 ## TODO (Features)
 
-- [ ] Loader 
-    - [x] Add support for TOML files
-    - [x] Add support for YAML files
-    - [x] Add support for JSON files
-    - [x] Add support for CSV files
-    - [ ] Add support for gRPC plugins
-- [ ] Executor
-    - [x] Add support for native executor 
-    - [ ] Add support for gRPC plugins
-- [ ] Tester 
-    - [ ] Add support for JavaScript plugin 
-    - [ ] Add support for gRPC plugins
+- [x] Neko Command Line Interface
+    - [x] Add `show` subcommand `neko show --output-format yaml ./SampleCollection.neko.jsonc`
+    - [x] Add `run` subcommand `neko run ./SampleCollection.neko.jsonc`
+    - [ ] Improve Logs 
+- [ ] Neko GUI (MacOS Native App) 
+    - [x] Create a POC [SwiftUI MacOs APP](https://github.com/nekoverse-api/neko-console-swiftui)
+    - [ ] Create project
+- [ ] Neko Core
+    - [ ] Loader 
+        - [x] Add support for TOML files
+        - [x] Add support for YAML files
+        - [x] Add support for JSON files
+        - [x] Add support for CSV files
+        - [x] Add File loader plugin
+        - [ ] Add GitFriendly loader plugin
+        - [ ] Add gRPC loader plugin
+    - [ ] Executor
+        - [x] Add Native executor plugin
+        - [ ] Add gRPC executor plugins
+    - [ ] Tester 
+        - [ ] Add support for JavaScript plugin 
+        - [ ] Add support for gRPC plugins
 
 ## Trademark
 

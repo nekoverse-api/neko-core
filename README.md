@@ -20,13 +20,16 @@ Neko is a Faster, Git-Friendly, Flexible, Extensible and Highly Plugineable API 
 - [x] **Neko Command Line Interface**
     - [x] Load neko config files
     - [x] Add `show` subcommand `neko show --output-format yaml ./SampleCollection.neko.jsonc`
-        [x] Add metadata for options
-        [x] Implement subcommand to show the config in different formats
-        [ ] (NiceToHave) Validate Neko Config Files
+        - [x] Add metadata for options
+        - [x] Implement subcommand to show the config in different formats
+        - [ ] (NiceToHave) Validate Neko Config Files
     - [x] Add `run` subcommand `neko run ./SampleCollection.neko.jsonc`
-        [x] Add metadata for options 
-        [x] Implement subcommand to show the config in different formats
-    - [ ] Improve Logs 
+        - [x] Add metadata for options 
+        - [x] Implement subcommand to show the config in different formats
+    - [ ] General Improvements
+        - [ ] Improve logs 
+        - [ ] Add support for verbose mode 
+        - [ ] Add support for dirty run
 - [ ] **Neko GUI (MacOS Native App)**
     - [x] Create a POC [SwiftUI MacOs APP](https://github.com/nekoverse-api/neko-console-swiftui)
     - [ ] Create project

@@ -1,25 +1,16 @@
 import NekoCore
 
-func buildExecutionParams(path: String, plugin: PluginOptions, general: GeneralOptions)
-    -> NekoCore.ExecuteParams
-{
-    var params = NekoCore.ExecuteParams(path)
+func getConfig(_ path: String, _ plugin: PluginOptions) async throws -> NekoConfig {
+    do {
+        let name = "\(plugin.loaderPlugin)"
+        var properties = [String: String]()
+        plugin.loaderProperties.forEach { properties[$0.key] = $0.value }
 
-    params.loader.name = plugin.loaderPlugin.rawValue
-    for property in plugin.loaderProperties {
-        params.loader.properties.updateValue(property.value, forKey: property.key)
+        let loader = NekoCore.Factory.getLoaderBy(name, properties)
+        let config = try await loader.load(path)
+        return config
+    } catch {
+        cli.error("Error trying load neko config")
+        throw error
     }
-
-    params.executor.name = plugin.executorPlugin.rawValue
-    for property in plugin.executorProperties {
-        params.executor.properties.updateValue(property.value, forKey: property.key)
-    }
-
-    params.tester.name = plugin.testerPlugin.rawValue
-    for property in plugin.testerProperties {
-        params.tester.properties.updateValue(property.value, forKey: property.key)
-    }
-
-    params.verbose = general.verbose
-    return params
 }

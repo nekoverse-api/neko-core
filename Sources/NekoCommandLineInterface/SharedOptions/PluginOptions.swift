@@ -40,16 +40,4 @@ struct PluginOptions: ParsableArguments {
 
     @Option(help: "Loader plugin properties.", transform: PluginProperty.init)
     var loaderProperties: [PluginProperty] = []
-
-    @Option(name: .shortAndLong, help: "Executor plugin name")
-    var executorPlugin: Executor = .Native
-
-    @Option(help: "Executor plugin properties.", transform: PluginProperty.init)
-    var executorProperties: [PluginProperty] = []
-
-    @Option(name: .shortAndLong, help: "Tester plugin name")
-    var testerPlugin: Tester = .Native
-
-    @Option(help: "Tester plugin properties.", transform: PluginProperty.init)
-    var testerProperties: [PluginProperty] = []
 }

@@ -23,27 +23,12 @@ struct RunNekoCommand: AsyncParsableCommand, NekoCore.NekoRunLifeCycle {
 
     func run() async throws {
         do {
-            cli.title("Starting Neko Collection Execution")
-            let config = try await getConfig()
+            cli.title("[猫][neko@v\(NekoCore.version)] Neko Collection: Starting Execution")
+            let config = try await getConfig(path, plugin)
             try await NekoCore.NekoRunCollection.runCollection(config, self)
             cli.success("Completed successfully")
         } catch {
-            cli.error("Error trying to execute collection")
-            throw error
-        }
-    }
-
-    func getConfig() async throws -> NekoConfig {
-        do {
-            let name = "\(plugin.loaderPlugin)"
-            var properties = [String: String]()
-            plugin.loaderProperties.forEach { properties[$0.key] = $0.value }
-
-            let loader = NekoCore.Factory.getLoaderBy(name, properties)
-            let config = try await loader.load(path)
-            return config
-        } catch {
-            cli.error("Error trying load Neko Config")
+            cli.error("Error trying to execute collection: '\(path)'")
             throw error
         }
     }

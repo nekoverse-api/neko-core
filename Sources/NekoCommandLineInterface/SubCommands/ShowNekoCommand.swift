@@ -27,8 +27,7 @@ struct ShowNekoCommand: AsyncParsableCommand {
 
     func run() async throws {
         do {
-            let params = buildExecutionParams(path: path, plugin: plugin, general: general)
-            let config = try await NekoCore.getConfig(params)
+            let config = try await getConfig(path, plugin)
             let string =
                 switch outputFormat {
                 case .json: try NekoFileLoader.NekoFile.asJson(config)
@@ -37,7 +36,7 @@ struct ShowNekoCommand: AsyncParsableCommand {
                 }
             print(string)
         } catch {
-            cli.error("Unable to show config from \(path)")
+            cli.error("Error trying to show collection: '\(path)'")
             throw error
         }
     }
